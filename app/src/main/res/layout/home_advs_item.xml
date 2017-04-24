@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootFrame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right">
+
+    <!--  <ProgressBar
+          android:id="@+id/progressBar"
+          style="?android:attr/progressBarStyleHorizontal"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:progressDrawable="@drawable/progress_drawable"
+          android:visibility="gone" />-->
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="100dp"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:background="@drawable/background_ads"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+    </LinearLayout>
+</FrameLayout>

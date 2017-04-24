@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setting_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.fatima.keys.Chatting.Activity.RoomInformationSettings">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:contentInsetEnd="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/app_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/back"
+                android:gravity="center"
+                android:text="@string/Edit_Room_IMAGE"
+                android:textColor="@color/colorWhite" />
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_menu"
+                android:clickable="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_forward"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/chage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/selector_bg">
+
+        <ImageView
+            android:id="@+id/group_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/profile_img"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/change_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toEndOf="@+id/group_img"
+            android:text="@string/Change_Image" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@+id/chage_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorGray4" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_name"
+        style="@style/txt_appearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line"
+        android:layout_marginTop="10dp"
+        android:theme="@style/AppTheme1"
+        app:hintTextAppearance="@style/txt_appearance">
+
+        <EditText
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            android:hint="@string/Change_Name"
+            android:inputType="text|textNoSuggestions"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+    </android.support.design.widget.TextInputLayout>
+
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@+id/input_layout_name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorGray4" />
+
+    <TextView
+        android:id="@+id/chang_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/change_color" />
+
+    <RelativeLayout
+        android:id="@+id/change_color_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chang_color"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/color1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/color1"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/color2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/color1"
+            android:src="@drawable/color2"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/color3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/color2"
+            android:src="@drawable/color3"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/color4"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/color3"
+            android:src="@drawable/color4"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/color5"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/color4"
+            android:src="@drawable/color5"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/color6"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/color5"
+            android:src="@drawable/color6"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_below="@+id/change_color_layout"
+        android:id="@+id/save"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_radius_room"
+        android:text="@string/save_btn"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp"
+        tools:ignore="SpUsage" />
+
+</RelativeLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_available"
+        android:title="@string/nav_available" />
+    <item
+        android:id="@+id/nav_busy"
+        android:title="@string/nav_busy" />
+    <item
+        android:id="@+id/nav_invisible"
+        android:title="@string/nav_invisible" />
+
+    <item
+        android:id="@+id/nav_on_work"
+        android:title="@string/nav_on_work" />
+
+    <item
+        android:id="@+id/nav_on_university"
+        android:title="@string/nav_on_university" />
+</menu>

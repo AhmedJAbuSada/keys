@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp">
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/layout"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/profile_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/profile_img" />
+
+            <ProgressBar
+                android:id="@+id/imageProgress"
+                style="?android:attr/progressBarStyleSmallInverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:layout_toEndOf="@+id/layout"
+            android:layout_toStartOf="@+id/invite">
+
+            <TextView
+                android:id="@+id/name_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/hello"
+                android:textColor="@color/colorTitle"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/status_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/hello"
+                android:textColor="@color/colorMessage" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/invite"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_radius_room"
+            android:text="@string/invite"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

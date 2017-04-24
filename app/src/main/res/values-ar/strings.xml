@@ -1,0 +1,248 @@
+<resources>
+    <string name="app_name">KeysApp</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="user_email">البريد الالكتروني</string>
+    <string name="pass_word">كلمة المرور</string>
+    <string name="remember">نسيت كلمة المرور؟</string>
+    <string name="login_btn">تسجيل الدخول</string>
+    <string name="create">إنشاء حساب جديد</string>
+    <string name="register">تسجيل</string>
+    <string name="new_create">تسجيل جديد</string>
+    <string name="mobile_NO">رقم الهاتف المحمول</string>
+    <string name="confirm_pass">تأكيد كلمة المرور</string>
+    <string name="privacy">عند إنشاءك الحساب انت توافق على سياسة الخصوصية وشروط الاستخدام</string>
+    <string name="err_msg_name">يجب ادخال الايميل</string>
+    <string name="err_valid_msg_name">عنوان البريد الإلكتروني غير صالح</string>
+    <string name="err_msg_mobile">يجب ادخال رقم الهاتف</string>
+    <string name="err_msg_password">ادخل كلمة المرور</string>
+    <string name="err_msg_confirm">يجب التأكد من كلمة المرور</string>
+    <string name="err_msg_confirm_pass">يجب ان تكون كلمة المرور صحيحة ومتطابقة</string>
+    <string name="err_msg_correct_mobile">يجب ادخال الرقم الصحيح ########5</string>
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="change_img">تغير صورة الحساب</string>
+    <string name="add_contact">جهات الاتصال الخاصة بي </string>
+    <string name="title_contact">جهات الاتصال </string>
+    <string name="add_new_group">مجموعة جديدة</string>
+    <string name="status_text">سبحان الله وبحمده سبحان الله العظيم</string>
+    <string name="text">هذا ليس اسم المستخدم أو رقم التعريف الخاص بك . يكون هذا
+الاسم ظاهراً لجهات الاتصال الخاصة بك في واتساب .</string>
+    <string name="NoRecent">No recent</string>
+    <string name="minimum">كلمة المرور قصيرة جدا، أدخل على الأقل 6 أحرف!</string>
+    <string name="minimumMobile"> رقم الهاتف المحمول يجب أن يكون  9 أرقام!</string>
+    <string name="auth_failed">فشل في الدخول، تحقق من بريدك الالكتروني وكلمة المرور أو تسجيل الدخول</string>
+    <string name="forgot_password_msg">نحن بحاجة إلى البريد الإلكتروني المسجل، لأرسل لك إرشادات إعادة تعيين كلمة المرور.</string>
+    <string name="btn_reset_password">اعادة تعيين كلمة السر</string>
+    <string name="btn_back"><![CDATA[<< الرجوع ]]></string>
+    <string name="send_email">لقد قمنا بإرسال تعليمات لإعادة تعيين كلمة المرور الخاصة بك!</string>
+    <string name="fail_sent">فشل في إرسال إعادة تعين البريد الإلكتروني !</string>
+    <string name="fail_register">فشل في تسجيل الدخول !</string>
+    <string name="change_update">كلمة المرور تم تحديثها، تسجيل الدخول باستخدام كلمة مرور جديدة!</string>
+    <string name="fail_change">فشل تحديث كلمة السر!</string>
+
+    <string name="fa_arrow_left">&#xf060;</string>
+    <string name="fa_arrow_right">&#xf061;</string>
+    <string name="fa_check">&#xf00c;</string>
+    <string name="fa_bars">&#xf0c9;</string>
+    <string name="fa_ellipsis_v">&#xf142;</string>
+    <string name="fa_search">&#xf002;</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_available">متاح</string>
+    <string name="nav_profile">تغير كلمة المرور</string>
+    <string name="nav_settings">إعدادات</string>
+    <string name="nav_logout">تسجيل الخروج</string>
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>متاح</item>
+        <item>تغير كلمة المرور</item>
+        <item>إعدادات</item>
+        <item>تسجيل الخروج</item>
+    </string-array>
+
+
+    <!-- popup menu labels -->
+    <string name="nav_busy">مشغول</string>
+    <string name="nav_invisible">غير مرئي</string>
+    <string name="nav_on_work">في العمل</string>
+    <string name="nav_on_university">في الجامعة</string>
+
+    <string name="cancel_menu">حذف</string>
+    <string name="update_menu">تعديل</string>
+
+    <string name="permission_rationale">"Storage permission is needed for fetching images from Gallery."</string>
+
+    <!-- Content descriptions -->
+    <string name="descr_image">Image</string>
+    <string name="place_name">اكتب اسم المكان..</string>
+    <string name="confirm">تأكيد..</string>
+
+    <string name="nav_new_group">جموعة جديدة</string>
+    <string name="nav_group_message"> رسالة جماعية جديدة</string>
+    <string name="nav_status">الحالة</string>
+    <string name="nav_setting">الإعدادات</string>
+    <string name="new_group">مجموعة جديدة</string>
+    <string name="group_name"> اكتب اسم المجموعة هنا</string>
+    <string name="group_Des">وصف المجموعة</string>
+    <string name="group_date_start">تاريخ انشاء المجموعة </string>
+    <string name="group_date_end"> تاريخ انتهاء المجموعة</string>
+    <string name="closed_group"> مجموعة مفتوحة / مغلقة</string>
+    <string name="current_status">حالتك الحالية</string>
+    <string name="determine_status">تحديد حالتك الجديدة </string>
+    <string name="cancel">  حذف الكل </string>
+    <string name="cancel_message">سيتم حذف جميع الإعلانات لهذا المتجر؟</string>
+    <string name="no">  إلغاء</string>
+    <string name="time">3:08 م</string>
+    <string name="write_message">اكتب الرسالة …</string>
+    <string name="search_txt">بحث....</string>
+    <string name="room_name">أحلى شباب</string>
+    <string name="room_create">تاريخ إنشاء المجموعة</string>
+    <string name="room_create_date">12/10/2016</string>
+    <string name="member_group">أعضاء الغرفة</string>
+    <string name="member_name">فاطمة</string>
+    <string name="message_to">رسالة إلى</string>
+    <string name="view">عرض</string>
+    <string name="director_txt">تعيينه مشرفاً على الغرفة</string>
+    <string name="voice_edit">تعديل حالة صامت</string>
+    <string name="from_room">من الغرفة</string>
+    <string name="go_out">طرد</string>
+    <string name="hintText">إضافة شرح…</string>
+    <string name="sendImage">إرسال صورة</string>
+    <string name="gallary_text">المعرض</string>
+    <string name="img_title">الصورة الشخصية</string>
+
+    <string name="font1">frutigerltarabic_roman.ttf</string>
+    <string name="font2">FrutigerLTArabic_Bold.ttf</string>
+    <string name="member_room">عدد أعضاء الغرفة</string>
+    <string name="member_no">17</string>
+    <string name="member">عضو</string>
+    <string name="out_room">الخروج من الغرفة</string>
+    <string name="apply_room">طلب اشراف على الغرفة</string>
+    <string name="hello">hello</string>
+    <string name="Edit_Room_IMAGE">تعديل الغرفة</string>
+    <string name="Change_Image">تغير صورة الغرفة</string>
+    <string name="Change_Name">تغير اسم الغرفة</string>
+    <string name="text_title">الاسمنت</string>
+    <string name="change_color">تغير لون الغرفة</string>
+    <string name="save_btn">حفظ</string>
+    <string name="address">العنوان</string>
+    <string name="category">القسم</string>
+    <string name="city">المدينة</string>
+    <string name="atlest">إضافة 10 صور كحد أقصى</string>
+    <string name="add_ads">إضافة إعلان</string>
+    <string name="ads_details">تفاصيل الإعلان</string>
+    <string name="add_market">متجر جديد</string>
+    <string name="market_img">صورة المتجر</string>
+    <string name="market_name">اسم المتجر</string>
+    <string name="market_adress">العنوان</string>
+    <string name="market_tele">رقم التلفون</string>
+    <string name="market_des">وصف المتجر</string>
+    <string name="add_markets">إضافة متجر</string>
+    <string name="new_ads">إعلان جديد</string>
+    <string name="market">المتجر</string>
+    <string name="disapear_main">إظهار في الرئيسية</string>
+    <string name="market_name1">باردو للرخام</string>
+    <string name="market_address">غزة- التفاح</string>
+    <string name="url">رابط - URL</string>
+    <string name="location">الموقع الجغرافي</string>
+    <string name="place_address">اكتب العنوان..</string>
+    <string name="searching">ابحث…</string>
+    <string name="no_result">لا يوجد نتائج</string>
+    <string name="error">هناك مشكلة!!</string>
+
+    <string name="no_internet_connection">لا يوجد اتصال بالانترنت</string>
+    <string name="time_out">انتهى الوقت</string>
+    <string name="error_occured">هناك خطأ!</string>
+    <string name="write_comment">أكتب تعليقك على الإعلان هنا…</string>
+    <string name="_966">966+</string>
+    <string name="email_exist">هذا البريد الإلكتروني موجود بالفعل.</string>
+    <string name="write_status">اكتب الحالة الخاصة بك</string>
+    <string name="close_voice">كتم الصوت</string>
+    <string name="name">فاطمة سلمان</string>
+    <string name="phone_no">+966 597987207</string>
+    <string name="agree">موافق</string>
+    <string name="cancel_">إلغاء</string>
+    <string name="coment">ريد الشراء ،، تواصل معي على الخاص</string>
+    <string name="name_">عبد الله محمد</string>
+    <string name="_158">158</string>
+    <string name="gps">تشغيل ال gps</string>
+    <string name="gps_">السماح تشغيل ال gps</string>
+    <string name="yes">نعم</string>
+    <string name="no_">لا</string>
+    <string name="you">أنت</string>
+    <string name="title_">جبس - معلمين جبسون بور وجبس مغربي</string>
+    <string name="optional">اختياري</string>
+    <string name="no_data">لا يوجد إعلانات في هذا القسم</string>
+    <string name="appear_last">أخر ظهور</string>
+    <string name="mute">كتم الصوت</string>
+    <string name="phoneNo">رقم الهاتف</string>
+    <string name="invite">دعوة</string>
+    <string name="start_con">للبدء بمراسلة جهات الاتصال التي تستعمل التطبيق، انقر على </string>
+    <string name="above_screen"> في أعلى الشاشة.</string>
+    <string name="welcome_chats_message">للبدء بمراسلة جهات الاتصال التي تستعمل التطبيق، انقر على %s في أعلى الشاشة.</string>
+    <string name="contact_name">تحديد جهات الاتصال</string>
+    <string name="invite_friends">لا يوجد أحد من جهات الاتصال الخاص بك يستخدم التطبيق، قم بدعوتهم</string>
+    <string name="no_Ads">لا يوجد تعليقات لهذا الاعلان</string>
+    <string name="add_members">إضافة أعضاء الغرفة</string>
+    <string name="search_members">ابحث عن الأعضاء</string>
+
+    <string name="sign_out">Sign Out</string>
+    <string name="contacts_permission_rationale">Access to account information is required to sign in.</string>
+    <string name="invite_menu_label">Invite</string>
+    <string name="invitation_message">Please join me for a friendly chat</string>
+    <string name="invitation_cta">Call to action</string>
+    <string name="invitation_title">Friendly Chat Invite</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="fresh_config">Fresh Config</string>
+    <string name="cause_crash">Cause Crash</string>
+    <string name="hint_email">email</string>
+    <string name="hint_password">password</string>
+
+    <string name="no_internet">No internet</string>
+    <string name="mcam_permissions_needed">mcam_permissions_needed</string>
+    <string name="mcam_video_perm_warning">mcam_video_perm_warning</string>
+    <string name="hint_country">country</string>
+
+    <string name="select_picture_title">Get Photo From</string>
+    <string name="api_key_google_places"> AIzaSyCiLgkmsQEemwzZFIr4MRnVQPoSmriVjxY</string>
+    <string name="locationTo">Localização Enviada</string>
+    <string name="sendPhoto">تصوير صورة</string>
+    <string name="sendPhotoGallery">معرض الصور</string>
+    <string name="record">تسجيل</string>
+    <string name="sendVideoGallery">معرض الفيديو</string>
+    <string name="sendVideo">تصوير فيديو</string>
+    <string name="pleaseWait">الرجاء الانتظار …</string>
+    <string name="sendLocation">مشاركة الموقع الجغرافي</string>
+    <string name="gallery">معرض الصور</string>
+    <string name="camera">تصوير</string>
+
+    <string name="title_groups">المجموعات</string>
+    <string name="title_contacts">جهات الاتصال</string>
+    <string name="title_chats">المحادثات</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="font_name">frutigerltarabic_roman.ttf</string>
+
+    <string name="contact_details">الملف الشخصي</string>
+    <string name="private_message">محادثة خاصة</string>
+    <string name="puplic_message">محادثة جماعية</string>
+    <string name="add_chat_group">اضافة محادثة جماعية</string>
+    <string name="search_key">البحث</string>
+    <string name="name_empty">يرجى اضافة اسم للمجموعة</string>
+    <string name="list_empty">يرجى اختيار اعضاء للمحادثة</string>
+    <string name="you_have_text_messsage">لديك رسالة نصية جديدة</string>
+    <string name="you_have_messsage">لديك رسالة جديدة</string>
+    <string name="you_have_record_messsage">لديك رسالة صوتية جديدة</string>
+    <string name="location_message">موقع على الخريطة</string>
+    <string name="audio_message">رسالة صوتية</string>
+    <string name="video_message">فيديو</string>
+    <string name="image_message">صورة</string>
+    <string name="typing">يكتب الآن..</string>
+</resources>

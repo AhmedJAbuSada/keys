@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context="com.app.fatima.keys.Chatting.Fragment.MainFragment">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs_icon"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorBlack1"
+        android:elevation="10dp"
+        android:minWidth="0dp"
+        android:paddingTop="5dp"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorBlack1"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabTextAppearance="@style/TextAppearance.App.TextInputLayout"
+        app:tabTextColor="@color/colorTab" />
+
+    <com.booking.rtlviewpager.RtlViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tabs_icon"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+</RelativeLayout>

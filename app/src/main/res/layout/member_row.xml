@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/colorWhite"
+    android:elevation="4dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/message_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/message_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/message_to"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/member_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/message_to"
+                    android:text="@string/member_name"
+                    android:textColor="@color/colorBlack" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/view_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/message_layout"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/view_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/view"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/member_name1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/view_to"
+                    android:text="@string/member_name"
+                    android:textColor="@color/colorBlack" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/director_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_layout"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/director"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/director_txt"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/go_out_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/director_layout"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/out_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/go_out"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/member_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/out_to"
+                    android:text="@string/member_name"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/from_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/member_name2"
+                    android:text="@string/from_room"
+                    android:textColor="@color/colorBlack" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/voice_status_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/go_out_layout"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/voice_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/voice_edit"
+                    android:textColor="@color/colorBlack" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/voice_status"
+                    android:checked="false"
+                    app:switchTextAppearance="@style/BrandedSwitch.text"
+                    app:theme="@style/BrandedSwitch.control" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

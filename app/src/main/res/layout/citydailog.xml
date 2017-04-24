@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp">
+
+        <EditText
+            android:id="@+id/editdrop1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:hint="@string/city"
+            android:inputType="text"
+            android:textSize="15dp"
+            android:theme="@style/AppTheme1" />
+
+        <ImageView
+            android:id="@+id/dropdown1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_menu"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_down" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/city"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/agree"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/attach_img"
+            android:layout_weight=".5"
+            android:background="@color/colorGray4"
+            android:text="موافق"
+            android:textColor="@color/colorBlack"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/disagree"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/attach_img"
+            android:layout_weight=".5"
+            android:background="@color/colorGray4"
+            android:text="إلغاء"
+            android:textColor="@color/colorBlack"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+</RelativeLayout>
+

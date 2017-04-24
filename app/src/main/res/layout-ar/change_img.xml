@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGray5"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/img_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/img_title"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/gallery_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_title"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/img_photo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/photo" />
+
+            <TextView
+                android:id="@+id/gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toEndOf="@+id/img_photo"
+                android:layout_toLeftOf="@+id/img_photo"
+                android:text="@string/gallary_text" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/camera_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gallery_layout"
+            android:background="@drawable/selector_bg"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/img_camera"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/camera" />
+
+            <TextView
+                android:id="@+id/camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_toEndOf="@+id/img_camera"
+                android:layout_toLeftOf="@+id/img_camera"
+                android:text="الكاميرا" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cancel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/camera_layout"
+            android:background="@drawable/selector_bg"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/img_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_cancel_black" />
+
+            <TextView
+                android:id="@+id/cancel_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_toEndOf="@+id/img_cancel"
+                android:layout_toLeftOf="@+id/img_cancel"
+                android:text="إلغاء" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
