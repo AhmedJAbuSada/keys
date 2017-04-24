@@ -27,11 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.keys.R;
 import com.keys.activity.LoginActivity;
-import com.keys.activity.MainActivity;
 import com.keys.chats.chats.AddChatActivity_;
 import com.keys.chats.chats.AddChatGroupActivity_;
 import com.keys.chats.chats.ChatsFragment_;
-import com.keys.chats.contacts.ContactsFragment;
 import com.keys.chats.contacts.ContactsFragment_;
 import com.keys.chats.groups.GroupsFragment_;
 import com.keys.chats.home.HomeFragment_;
@@ -557,13 +555,15 @@ public class ChattingActivity extends Fragment {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (realm.isInTransaction())
+                        if (realm.isInTransaction()) {
                             realm.delete(User.class);
-                        else
+                            realm.delete(Contact.class);
+                        } else
                             realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
                                     realm.delete(User.class);
+                                    realm.delete(Contact.class);
                                 }
                             });
                         for (DataSnapshot dataSnapshotChild : dataSnapshot.getChildren()) {
