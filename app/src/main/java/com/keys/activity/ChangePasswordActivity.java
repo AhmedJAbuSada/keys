@@ -26,7 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private Typeface font;
-    
+String gg;
+String ff="cvfc";
     private EditText newPassword, confirmNewPassword;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
