@@ -152,4 +152,19 @@ public class Contact extends RealmObject implements Serializable {
         this.userQRCode = userQRCode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Contact contact = (Contact) o;
+
+        return objectId.equals(contact.objectId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return objectId.hashCode();
+    }
 }

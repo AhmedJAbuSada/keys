@@ -12,26 +12,6 @@ public class User extends RealmObject implements Serializable{
     public User() {
     }
 
-//    public User(String country, String displayStatus, String deviceToken, String email, String fullName,
-//                String latitude, String longitude, String mobileNo, String objectId, String picture,
-//                String userQRCode, String statusId, double updatedAt, double createdAt) {
-//        this.statusId = statusId;
-//        this.country = country;
-//        this.deviceToken = deviceToken;
-//        this.displayStatus = displayStatus;
-//        this.email = email;
-//        this.fullName = fullName;
-//        this.latitude = latitude;
-//        this.longitude = longitude;
-//        this.mobileNo = mobileNo;
-//        this.objectId = objectId;
-//        this.os = "Android";
-//        this.picture = picture;
-//        this.userQRCode = userQRCode;
-//        this.updatedAt = updatedAt;
-//        this.createdAt = createdAt;
-//    }
-
     public User(String country, String displayStatus, String deviceToken, String email, String fullName,
                 String latitude, String longitude, String mobileNo, String objectId,String os, String picture,
                 String userQRCode, double updatedAt, double createdAt, String statusId) {
@@ -171,5 +151,24 @@ public class User extends RealmObject implements Serializable{
     public void setUserQRCode(String userQRCode) {
         this.userQRCode = userQRCode;
     }
+//    public User(String country, String displayStatus, String deviceToken, String email, String fullName,
+//                String latitude, String longitude, String mobileNo, String objectId, String picture,
+//                String userQRCode, String statusId, double updatedAt, double createdAt) {
+//        this.statusId = statusId;
+//        this.country = country;
+//        this.deviceToken = deviceToken;
+//        this.displayStatus = displayStatus;
+//        this.email = email;
+//        this.fullName = fullName;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
+//        this.mobileNo = mobileNo;
+//        this.objectId = objectId;
+//        this.os = "Android";
+//        this.picture = picture;
+//        this.userQRCode = userQRCode;
+//        this.updatedAt = updatedAt;
+//        this.createdAt = createdAt;
+//    }
 
 }
