@@ -6,15 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorGrayIcon</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:colorButtonNormal">@drawable/button_selector</item>
+        <!--<item name="windowDrawsSystemBarBackgrounds">true</item>-->
         <item name="colorButtonNormal">@drawable/button_selector</item>
         <item name="android:buttonStyle">@style/FriendlyButtonStyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <!--<item name="colorControlActivated">#000</item>-->
         <!--<item name="colorControlHi  ghlight">#000</item>-->
     </style>
-
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">12sp</item>

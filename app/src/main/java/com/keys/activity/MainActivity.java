@@ -83,6 +83,7 @@ import com.google.firebase.storage.UploadTask;
 import com.keys.Hraj.Fragment.FragmentTwo;
 import com.keys.Interface.DoSearch;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.adapter.StatusAdapter;
 import com.keys.chats.ChattingActivity_;
 import com.keys.chats.model.User;
@@ -383,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        applyFont(MainActivity.this, mDrawerLayout);
+       Utils.applyFont(MainActivity.this, mDrawerLayout);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "FrutigerLTArabic_Bold.ttf");
         app_name.setTypeface(typeface);
@@ -917,29 +918,6 @@ public class MainActivity extends AppCompatActivity {
         Log.e("CONT", getSupportFragmentManager().getBackStackEntryCount() + "  " + fragment.getTag());
         if (getFragmentManager().getBackStackEntryCount() == 0) finish();
         super.onBackPressed();
-    }
-
-    public void applyFont(final Context context, final View v) {
-        Typeface font = Typeface.createFromAsset(context.getAssets(), "frutigerltarabic_roman.ttf");
-        try {
-            if (v instanceof ViewGroup) {
-                ViewGroup vg = (ViewGroup) v;
-                for (int i = 0; i < vg.getChildCount(); i++) {
-                    View child = vg.getChildAt(i);
-                    applyFont(context, child);
-                }
-            } else if (v instanceof TextView) {
-                ((TextView) v).setTypeface(font);
-            } else if (v instanceof EditText) {
-                ((EditText) v).setTypeface(font);
-            } else if (v instanceof Button) {
-                ((Button) v).setTypeface(font);
-            } else if (v instanceof RadioButton) {
-                ((RadioButton) v).setTypeface(font);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Action getIndexApiAction() {

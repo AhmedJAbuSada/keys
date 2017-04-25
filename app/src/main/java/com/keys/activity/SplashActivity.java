@@ -46,36 +46,39 @@ public class SplashActivity extends Activity {
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "Alakob.ttf");
         logo_txt.setTypeface(typeface);
-        getData();
+
+        if (MyApplication.myPrefs.isFirstLunch().get()) {
+            if(Utils.isOnline(SplashActivity.this))
+                getData(0);
+            else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
+        }else
+            GoToTargetActivity();
+
+        getData(1);
+    }
+
+    private void GoToTargetActivity() {
         Thread background = new Thread() {
             public void run() {
                 try {
                     sleep(1 * 1000);
-                    if (MyApplication.myPrefs.isFirstLunch().get()) {
-                        if(Utils.isOnline(SplashActivity.this))
-                        getData();
-                        else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
-                    }else
-                       GoToTargetActivity();
+                    if (TextUtils.isEmpty(getSharedPreferences("myPrefs", MODE_PRIVATE).getString("userId", ""))) {
+                        intent = new Intent(SplashActivity.this, LoginActivity.class);
+                      //  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                    } else {
+                        intent = new Intent(SplashActivity.this, MainActivity.class);
+                      //  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    }
+                    startActivity(intent);
+                    finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         };
         background.start();
-    }
 
-    private void GoToTargetActivity() {
-        if (TextUtils.isEmpty(getSharedPreferences("myPrefs", MODE_PRIVATE).getString("userId", ""))) {
-            intent = new Intent(SplashActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
-        } else {
-            intent = new Intent(SplashActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        }
-        startActivity(intent);
-        finish();
     }
 
     @Override
@@ -84,7 +87,7 @@ public class SplashActivity extends Activity {
         super.onDestroy();
     }
 
-    public void getData() {
+    public void getData(int action) {
         Query queryDepartment = FirebaseDatabase.getInstance().getReference()
                 .child("Departments");
         Query queryCity = FirebaseDatabase.getInstance().getReference()
@@ -156,13 +159,15 @@ public class SplashActivity extends Activity {
 
             }
         });
-        if (dbHandler.getAllDepartments().size()>0 && dbHandler.getAllCities().size()>0){
-          //  if (completed1&&completed2) {
+        if (action==0) {
+            if (dbHandler.getAllDepartments().size() > 0 && dbHandler.getAllCities().size() > 0) {
+                //  if (completed1&&completed2) {
                 MyApplication.myPrefs.isFirstLunch().put(false);
                 GoToTargetActivity();
-         //   }
-        }else {
-            MyApplication.myPrefs.isFirstLunch().put(true);
+                //   }
+            } else {
+                MyApplication.myPrefs.isFirstLunch().put(true);
+            }
         }
 
     }

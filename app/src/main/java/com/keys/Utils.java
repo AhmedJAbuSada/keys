@@ -35,12 +35,11 @@ import java.util.Random;
  * Created by HSM on 1/16/2015.
  */
 public class Utils {
-    public static String FONT_NAME = "droidkufi_regular.ttf";
-    public static String FONT_BOLD_NAME = "droid_kufi_bold.ttf";
+    public static String FONT_NAME = "frutigerltarabic_roman.ttf";
     static Typeface font;
 
     public static void applyFont(final Context context, final View v) {
-        font = Typeface.createFromAsset(context.getAssets(), "fonts/" + FONT_NAME);
+        font = Typeface.createFromAsset(context.getAssets(),FONT_NAME);
         try {
             if (v instanceof ViewGroup) {
                 ViewGroup vg = (ViewGroup) v;
