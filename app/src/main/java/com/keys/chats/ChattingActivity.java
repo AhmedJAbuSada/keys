@@ -1,22 +1,22 @@
 package com.keys.chats;
 
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +33,9 @@ import com.keys.chats.chats.ChatsFragment_;
 import com.keys.chats.contacts.ContactsFragment_;
 import com.keys.chats.groups.GroupsFragment_;
 import com.keys.chats.home.HomeFragment_;
-import com.keys.chats.model.Contact;
 import com.keys.chats.model.GroupRealm;
 import com.keys.chats.model.Members;
 import com.keys.chats.model.RecentRealm;
-import com.keys.chats.model.User;
 import com.keys.chats.utilities.Constant;
 
 import org.androidannotations.annotations.AfterViews;
@@ -46,8 +44,6 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -495,12 +491,11 @@ public class ChattingActivity extends Fragment {
     private void openMenu(View view) {
         popupWindowList = new ListPopupWindow(getActivity());
         popupWindowList.setAnchorView(view);
-        popupWindowList.setWidth(200);
         popupWindowList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-
         String[] list = {getString(R.string.private_message), getString(R.string.puplic_message)};
-        popupWindowList.setAdapter(new ArrayAdapter<>(getActivity(), R.layout.setting, list));
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.setting, list);
+        popupWindowList.setAdapter(adapter);
+        popupWindowList.setContentWidth(measureContentWidth(adapter));
         popupWindowList.setModal(true);
         popupWindowList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -520,5 +515,37 @@ public class ChattingActivity extends Fragment {
         popupWindowList.show();
     }
 
+    private int measureContentWidth(ListAdapter listAdapter) {
+        ViewGroup mMeasureParent = null;
+        int maxWidth = 0;
+        View itemView = null;
+        int itemType = 0;
 
+        final ListAdapter adapter = listAdapter;
+        final int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int count = adapter.getCount();
+        for (int i = 0; i < count; i++) {
+            final int positionType = adapter.getItemViewType(i);
+            if (positionType != itemType) {
+                itemType = positionType;
+                itemView = null;
+            }
+
+            if (mMeasureParent == null) {
+                mMeasureParent = new FrameLayout(getActivity());
+            }
+
+            itemView = adapter.getView(i, itemView, mMeasureParent);
+            itemView.measure(widthMeasureSpec, heightMeasureSpec);
+
+            final int itemWidth = itemView.getMeasuredWidth();
+
+            if (itemWidth > maxWidth) {
+                maxWidth = itemWidth;
+            }
+        }
+
+        return maxWidth;
+    }
 }

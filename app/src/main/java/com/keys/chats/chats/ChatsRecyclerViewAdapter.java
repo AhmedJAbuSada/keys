@@ -82,7 +82,6 @@ class ChatsRecyclerViewAdapter extends RecyclerViewAdapterBase<Group, chatView> 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        Log.e("groupId", "   " + dataSnapshot.child("counter").getValue());
                         String num = "" + dataSnapshot.child("counter").getValue();
                         if (!num.equals("0") && !num.equals("null")) {
                             unseen.setVisibility(View.VISIBLE);
