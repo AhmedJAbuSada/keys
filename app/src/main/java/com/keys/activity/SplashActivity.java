@@ -9,7 +9,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.keys.DatabaseSQLite.DBHandler;
+import com.keys.MyApplication;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.forceRtlIfSupported;
 import com.keys.Hraj.Model.Cities;
 import com.keys.Hraj.Model.Departments;
@@ -28,6 +30,10 @@ public class SplashActivity extends Activity {
     TextView logo_txt;
     private DBHandler dbHandler;
     private Intent intent;
+    private int counter1=0;
+    private int counter2=0;
+    private boolean completed1=false;
+    private boolean completed2=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +47,31 @@ public class SplashActivity extends Activity {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "Alakob.ttf");
         logo_txt.setTypeface(typeface);
 
+        if (MyApplication.myPrefs.isFirstLunch().get()) {
+            if(Utils.isOnline(SplashActivity.this))
+                getData(0);
+            else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
+        }else
+            GoToTargetActivity();
+
+        getData(1);
+    }
+
+    private void GoToTargetActivity() {
         Thread background = new Thread() {
             public void run() {
                 try {
-                    sleep(5 * 1000);
-                    getData();
+                    sleep(1 * 1000);
                     if (TextUtils.isEmpty(getSharedPreferences("myPrefs", MODE_PRIVATE).getString("userId", ""))) {
                         intent = new Intent(SplashActivity.this, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
                     } else {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     }
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+//                    overridePendingTransition (0, 0);
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -62,6 +79,7 @@ public class SplashActivity extends Activity {
             }
         };
         background.start();
+
     }
 
     @Override
@@ -70,7 +88,7 @@ public class SplashActivity extends Activity {
         super.onDestroy();
     }
 
-    public void getData() {
+    public void getData(int action) {
         Query queryDepartment = FirebaseDatabase.getInstance().getReference()
                 .child("Departments");
         Query queryCity = FirebaseDatabase.getInstance().getReference()
@@ -82,6 +100,7 @@ public class SplashActivity extends Activity {
             public void onDataChange(final DataSnapshot dataSnapshot) {
                 try {
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        counter1++;
                         Log.e("ddaddd", data.getValue() + "");
                         int key = Integer.parseInt(data.getKey());
                         JSONObject jsonObject = new JSONObject((Map) data.getValue());
@@ -94,7 +113,11 @@ public class SplashActivity extends Activity {
                         departments1.setName(name);
                         departments1.setIsActive(isActive);
                         dbHandler.addDepartments(departments1);
+                        if (counter1==dataSnapshot.getChildrenCount()){
+                            completed1=true;
+                        }
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -111,6 +134,7 @@ public class SplashActivity extends Activity {
             public void onDataChange(final DataSnapshot dataSnapshot) {
                 try {
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        counter2++;
                         int key = Integer.parseInt(data.getKey());
                         JSONObject jsonObject = new JSONObject((Map) data.getValue());
                         String name = jsonObject.getString("CityName");
@@ -122,6 +146,9 @@ public class SplashActivity extends Activity {
                         cities.setName(name);
                         cities.setIsActive(isActive);
                         dbHandler.addCities(cities);
+                        if (counter2==dataSnapshot.getChildrenCount()){
+                            completed2=true;
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -133,5 +160,16 @@ public class SplashActivity extends Activity {
 
             }
         });
+        if (action==0) {
+            if (dbHandler.getAllDepartments().size() > 0 && dbHandler.getAllCities().size() > 0) {
+                //  if (completed1&&completed2) {
+                MyApplication.myPrefs.isFirstLunch().put(false);
+                GoToTargetActivity();
+                //   }
+            } else {
+                MyApplication.myPrefs.isFirstLunch().put(true);
+            }
+        }
+
     }
 }

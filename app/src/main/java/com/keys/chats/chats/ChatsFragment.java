@@ -74,5 +74,9 @@ public class ChatsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
 }
