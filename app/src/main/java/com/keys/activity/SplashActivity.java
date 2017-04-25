@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.keys.DatabaseSQLite.DBHandler;
 import com.keys.MyApplication;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.forceRtlIfSupported;
 import com.keys.Hraj.Model.Cities;
 import com.keys.Hraj.Model.Departments;
@@ -45,14 +46,15 @@ public class SplashActivity extends Activity {
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "Alakob.ttf");
         logo_txt.setTypeface(typeface);
-
+        getData();
         Thread background = new Thread() {
             public void run() {
                 try {
-                    sleep(5 * 1000);
+                    sleep(1 * 1000);
                     if (MyApplication.myPrefs.isFirstLunch().get()) {
-//                        if()
+                        if(Utils.isOnline(SplashActivity.this))
                         getData();
+                        else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
                     }else
                        GoToTargetActivity();
                 } catch (Exception e) {

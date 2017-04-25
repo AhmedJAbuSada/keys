@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">KeysApp</string>
+    <string name="no_internet">تأكد من اتصالك بالانترنت</string>
     <string name="user_name">اسم المستخدم</string>
     <string name="user_email">البريد الالكتروني</string>
     <string name="pass_word">كلمة المرور</string>
@@ -206,7 +207,6 @@
     <string name="hint_email">email</string>
     <string name="hint_password">password</string>
 
-    <string name="no_internet">No internet</string>
     <string name="mcam_permissions_needed">mcam_permissions_needed</string>
     <string name="mcam_video_perm_warning">mcam_video_perm_warning</string>
     <string name="hint_country">country</string>
