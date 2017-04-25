@@ -64,13 +64,14 @@ public class SplashActivity extends Activity {
                     sleep(1 * 1000);
                     if (TextUtils.isEmpty(getSharedPreferences("myPrefs", MODE_PRIVATE).getString("userId", ""))) {
                         intent = new Intent(SplashActivity.this, LoginActivity.class);
-                      //  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
                     } else {
                         intent = new Intent(SplashActivity.this, MainActivity.class);
-                      //  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     }
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+//                    overridePendingTransition (0, 0);
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();

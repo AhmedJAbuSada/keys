@@ -1,17 +1,15 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorGrayIcon</item>
         <!--<item name="windowDrawsSystemBarBackgrounds">true</item>-->
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
         <item name="colorButtonNormal">@drawable/button_selector</item>
         <item name="android:buttonStyle">@style/FriendlyButtonStyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
-        <!--<item name="colorControlActivated">#000</item>-->
-        <!--<item name="colorControlHi  ghlight">#000</item>-->
     </style>
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
@@ -44,7 +42,6 @@
     </style>
 
     <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorAccent">@color/colorGray3</item>
     </style>
 
@@ -85,7 +82,6 @@
     </style>
 
     <style name="BrandedSwitch.control" parent="Theme.AppCompat.Light">
-        <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
     </style>
 
