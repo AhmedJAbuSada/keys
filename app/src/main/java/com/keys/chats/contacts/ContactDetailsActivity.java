@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.keys.R;
 import com.keys.chats.chat.ChatActivity_;
-import com.keys.chats.model.Contact;
 import com.keys.chats.model.User;
 
 import org.androidannotations.annotations.AfterViews;
@@ -31,8 +30,8 @@ public class ContactDetailsActivity extends AppCompatActivity {
     @ViewById(R.id.start_chat)
     TextView start_chat;
 
-    @Extra
-    Contact contact;
+//    @Extra
+//    Contact contact;
 
     @Extra
     User contactUser;
@@ -59,16 +58,32 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Glide.with(ContactDetailsActivity.this).load(contact.getPicture())
+
+        Glide.with(ContactDetailsActivity.this).load(contactUser.getPicture())
                 .override(100, 100)
                 .fitCenter()
                 .into(picture);
-        username.setText(contact.getFullName());
+        username.setText(contactUser.getFullName());
 
-        user = new User(contact.getCountry(), contact.getDisplayStatus(), contact.getDeviceToken(),
-                contact.getEmail(), contact.getFullName(), contact.getLatitude(), contact.getLongitude(),
-                contact.getMobileNo(), contact.getObjectId(), contact.getOs(), contact.getPicture(),
-                contact.getUserQRCode(), contact.getUpdatedAt(), contact.getCreatedAt(), contact.getStatusId());
+//        if (contact != null) {
+//            Glide.with(ContactDetailsActivity.this).load(contact.getPicture())
+//                    .override(100, 100)
+//                    .fitCenter()
+//                    .into(picture);
+//            username.setText(contact.getFullName());
+//
+//            user = new User(contact.getCountry(), contact.getDisplayStatus(), contact.getDeviceToken(),
+//                    contact.getEmail(), contact.getFullName(), contact.getLatitude(), contact.getLongitude(),
+//                    contact.getMobileNo(), contact.getObjectId(), contact.getOs(), contact.getPicture(),
+//                    contact.getUserQRCode(), contact.getUpdatedAt(), contact.getCreatedAt(), contact.getStatusId());
+//        } else {
+//            Glide.with(ContactDetailsActivity.this).load(contactUser.getPicture())
+//                    .override(100, 100)
+//                    .fitCenter()
+//                    .into(picture);
+//            username.setText(contactUser.getFullName());
+//        }
+
     }
 
     @Click

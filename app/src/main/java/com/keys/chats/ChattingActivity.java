@@ -213,6 +213,8 @@ public class ChattingActivity extends Fragment {
                                 boolean checked = jUserData.optBoolean("checked");
                                 boolean isActive = jUserData.optBoolean("isActive");
                                 JSONArray members = jUserData.optJSONArray("members");
+                                if (!realm.isInTransaction())
+                                    realm.beginTransaction();
                                 GroupRealm group = realm.createObject(GroupRealm.class);
                                 group.setName(name);
                                 group.setObjectId(objectId);

@@ -45,8 +45,13 @@ public class ContactsRecyclerViewAdapter extends RecyclerViewAdapterBase<Contact
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isCanChat())
-                    ContactDetailsActivity_.intent(context).contact(s).start();
+                if (isCanChat()) {
+                    User user = new User(s.getCountry(), s.getDisplayStatus(), s.getDeviceToken(),
+                            s.getEmail(), s.getFullName(), s.getLatitude(), s.getLongitude(),
+                            s.getMobileNo(), s.getObjectId(), s.getOs(), s.getPicture(),
+                            s.getUserQRCode(), s.getUpdatedAt(), s.getCreatedAt(), s.getStatusId());
+                    ContactDetailsActivity_.intent(context).contactUser(user).start();
+                }
             }
         });
 
