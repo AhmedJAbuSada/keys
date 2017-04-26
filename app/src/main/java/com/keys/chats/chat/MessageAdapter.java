@@ -97,6 +97,8 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case TYPE_MESSAGE:
                 MessageAdapter.viewHolder holder = (MessageAdapter.viewHolder) viewHolder;
                 holder.messageTextView.setText(messageList.get(position).getText());
+//                String name = messageList.get(position).getSenderName().substring(0,
+//                        messageList.get(position).getSenderName().indexOf("@"));
                 holder.messengerTextView.setText(messageList.get(position).getSenderName());
                 holder.root.setGravity(Gravity.CENTER | Gravity.LEFT);
 //                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -108,6 +110,8 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case TYPE_MESSAGE_RIGHT:
                 MessageAdapter.viewHolder holderR = (MessageAdapter.viewHolder) viewHolder;
                 holderR.messageTextView.setText(messageList.get(position).getText());
+//                String nameR = messageList.get(position).getSenderName().substring(0,
+//                        messageList.get(position).getSenderName().indexOf("@"));
                 holderR.messengerTextView.setText(messageList.get(position).getSenderName());
                 holderR.root.setGravity(Gravity.CENTER | Gravity.RIGHT);
 //                SimpleDateFormat formatterR = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
