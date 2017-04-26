@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -35,11 +33,14 @@ import nl.changer.audiowife.AudioWife;
 
 class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Message> messageList;
-    private static final int TYPE_MESSAGE = 0;  // Declaring Variable to Understand which View is being worked on
+    private static final int TYPE_MESSAGE = 0;
+    private static final int TYPE_MESSAGE_RIGHT = 4;
     private static final int TYPE_IMG = 1;
+    private static final int TYPE_IMG_RIGHT = 5;
     private static final int TYPE_AUDIO = 2;
+    private static final int TYPE_AUDIO_RIGHT = 6;
     private static final int TYPE_VIDEO = 3;
-    private static final int TYPE_MESSAGE_RIGHT = 4;  // Declaring Variable to Understand which View is being worked on
+    private static final int TYPE_VIDEO_RIGHT = 7;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
     private ClickListenerChatFirebase mClickListenerChatFirebase;
     private Context context;
@@ -77,12 +78,18 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (viewType == TYPE_VIDEO) {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_img, parent, false);
             return new viewHolderImg(itemView);
-        } else if (viewType == TYPE_AUDIO) {
+        } else if (viewType == TYPE_AUDIO || viewType == TYPE_AUDIO_RIGHT) {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_audio, parent, false);
             return new viewHolderAudio(itemView);
         } else if (viewType == TYPE_MESSAGE_RIGHT) {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_right, parent, false);
             return new viewHolder(itemView);
+        } else if (viewType == TYPE_IMG_RIGHT) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_img_right, parent, false);
+            return new viewHolderImg(itemView);
+        } else if (viewType == TYPE_VIDEO_RIGHT) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_img_right, parent, false);
+            return new viewHolderImg(itemView);
         } else {
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
             return new viewHolder(itemView);
@@ -100,37 +107,18 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //                String name = messageList.get(position).getSenderName().substring(0,
 //                        messageList.get(position).getSenderName().indexOf("@"));
                 holder.messengerTextView.setText(messageList.get(position).getSenderName());
-                holder.root.setGravity(Gravity.CENTER | Gravity.LEFT);
-//                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTimeInMillis((long) messageList.get(position).getCreatedAt());
-//                holder.messageDate.setText(formatter.format(calendar.getTime()));
                 holder.messageDate.setText(time);
                 break;
             case TYPE_MESSAGE_RIGHT:
                 MessageAdapter.viewHolder holderR = (MessageAdapter.viewHolder) viewHolder;
                 holderR.messageTextView.setText(messageList.get(position).getText());
-//                String nameR = messageList.get(position).getSenderName().substring(0,
-//                        messageList.get(position).getSenderName().indexOf("@"));
                 holderR.messengerTextView.setText(messageList.get(position).getSenderName());
-                holderR.root.setGravity(Gravity.CENTER | Gravity.RIGHT);
-//                SimpleDateFormat formatterR = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-//                Calendar calendarR = Calendar.getInstance();
-//                calendarR.setTimeInMillis((long) messageList.get(position).getCreatedAt());
-//                holderR.messageDate.setText(formatterR.format(calendarR.getTime()));
                 holderR.messageDate.setText(time);
                 break;
             case TYPE_IMG:
-                viewHolderImg holderImg = (viewHolderImg) viewHolder;
-                if (messageList.get(position).getSenderId().equals(ChattingActivity.getUid()))
-                    holderImg.root.setGravity(Gravity.CENTER | Gravity.RIGHT);
-                else
-                    holderImg.root.setGravity(Gravity.CENTER | Gravity.LEFT);
-
-//                SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-//                Calendar calendar1 = Calendar.getInstance();
-//                calendar1.setTimeInMillis((long) messageList.get(position).getCreatedAt());
-                holderImg.timestamp.setText(time);
+                MessageAdapter.viewHolderImg holderImg = (MessageAdapter.viewHolderImg) viewHolder;
+                holderImg.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderImg.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.IMG)) {
                     holderImg.tvIsLocation(View.GONE);
                     holderImg.setIvChatPhoto(messageList.get(position).getPicture());
@@ -141,16 +129,9 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
                 break;
             case TYPE_VIDEO:
-                viewHolderImg holderVideo = (viewHolderImg) viewHolder;
-                if (messageList.get(position).getObjectId().equals(ChattingActivity.getUid()))
-                    holderVideo.root.setGravity(Gravity.CENTER | Gravity.RIGHT);
-                else
-                    holderVideo.root.setGravity(Gravity.CENTER | Gravity.LEFT);
-
-//                SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-//                Calendar calendar2 = Calendar.getInstance();
-//                calendar2.setTimeInMillis((long) messageList.get(position).getCreatedAt());
-                holderVideo.timestamp.setText(time);
+                MessageAdapter.viewHolderImg holderVideo = (MessageAdapter.viewHolderImg) viewHolder;
+                holderVideo.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderVideo.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.VIDEO)) {
                     holderVideo.tvIsLocation(View.GONE);
                     Glide.with(holderVideo.img_chat.getContext()).load(messageList.get(position).getPicture())
@@ -167,8 +148,41 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     });
                 }
                 break;
+            case TYPE_IMG_RIGHT:
+                MessageAdapter.viewHolderImg holderImgR = (MessageAdapter.viewHolderImg) viewHolder;
+                holderImgR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderImgR.messageDate.setText(time);
+                if (messageList.get(position).getType().equals(ChatActivity.IMG)) {
+                    holderImgR.tvIsLocation(View.GONE);
+                    holderImgR.setIvChatPhoto(messageList.get(position).getPicture());
+                } else if (messageList.get(position).getType().equals(ChatActivity.MAP)) {
+                    holderImgR.tvIsLocation(View.VISIBLE);
+                    String loc = local(messageList.get(position).getLatitude(), messageList.get(position).getLongitude());
+                    holderImgR.setIvChatPhoto(loc);
+                }
+                break;
+            case TYPE_VIDEO_RIGHT:
+                MessageAdapter.viewHolderImg holderVideoR = (MessageAdapter.viewHolderImg) viewHolder;
+                holderVideoR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderVideoR.messageDate.setText(time);
+                if (messageList.get(position).getType().equals(ChatActivity.VIDEO)) {
+                    holderVideoR.tvIsLocation(View.GONE);
+                    Glide.with(holderVideoR.img_chat.getContext()).load(messageList.get(position).getPicture())
+                            .override(100, 100)
+                            .fitCenter()
+                            .into(holderVideoR.img_chat);
+                    holderVideoR.img_chat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(context, VideoPlayerActivity.class);
+                            i.putExtra("url", messageList.get(position).getVideo());
+                            context.startActivity(i);
+                        }
+                    });
+                }
+                break;
             case TYPE_AUDIO:
-                viewHolderAudio holderAudio = (viewHolderAudio) viewHolder;
+                MessageAdapter.viewHolderAudio holderAudio = (MessageAdapter.viewHolderAudio) viewHolder;
                 if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
                     // AudioWife takes care of click
                     // handler for play/pause button
@@ -240,15 +254,15 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private class viewHolderImg extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView img_chat;
         TextView tvLocation;
-        TextView timestamp;
-        RelativeLayout root;
+        TextView messengerTextView;
+        TextView messageDate;
 
         viewHolderImg(View v) {
             super(v);
-            root = (RelativeLayout) v.findViewById(R.id.root);
             img_chat = (ImageView) v.findViewById(R.id.img_chat);
             tvLocation = (TextView) v.findViewById(R.id.tvLocation);
-            timestamp = (TextView) v.findViewById(R.id.timestamp);
+            messengerTextView = (TextView) v.findViewById(R.id.messengerTextView);
+            messageDate = (TextView) v.findViewById(R.id.messageDate);
         }
 
         @Override
@@ -289,23 +303,36 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
-        switch (message.getType()) {
+        if (message.getSenderId().equals(ChattingActivity.getUid()))
+            switch (message.getType()) {
             case ChatActivity.IMG:
-                return TYPE_IMG;
+                return TYPE_IMG_RIGHT;
             case ChatActivity.MAP:
-                return TYPE_IMG;
+                return TYPE_IMG_RIGHT;
             case ChatActivity.AUDIO:
-                return TYPE_AUDIO;
+                return TYPE_AUDIO_RIGHT;
             case ChatActivity.VIDEO:
-                return TYPE_VIDEO;
+                return TYPE_VIDEO_RIGHT;
             case ChatActivity.TEXT:
-                if (message.getSenderId().equals(ChattingActivity.getUid()))
-                    return TYPE_MESSAGE_RIGHT;
-                else
-                    return TYPE_MESSAGE;
+                return TYPE_MESSAGE_RIGHT;
             default:
-                return TYPE_MESSAGE;
+                return TYPE_MESSAGE_RIGHT;
         }
+        else
+            switch (message.getType()) {
+                case ChatActivity.IMG:
+                    return TYPE_IMG;
+                case ChatActivity.MAP:
+                    return TYPE_IMG;
+                case ChatActivity.AUDIO:
+                    return TYPE_AUDIO;
+                case ChatActivity.VIDEO:
+                    return TYPE_VIDEO;
+                case ChatActivity.TEXT:
+                    return TYPE_MESSAGE;
+                default:
+                    return TYPE_MESSAGE;
+            }
     }
 
 
@@ -335,7 +362,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .build();
     }
 
-    public static CharSequence converteTimestamp(String mileSegundos) {
+    private static CharSequence converteTimestamp(String mileSegundos) {
         return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSegundos),
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
     }

@@ -1124,10 +1124,10 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                     cameraPickerV.submit(data);
                     break;
                 case REQUEST_MEDIA:
+                    showpDialog();
                     List<MediaItem> mMediaSelectedList = MediaPickerActivity.getMediaItemSelected(data);
                     StorageReference storageRef = storage.getReferenceFromUrl(URL_STORAGE_REFERENCE).child(FOLDER_STORAGE_IMG);
                     if (mMediaSelectedList != null) {
-                        showpDialog();
                         for (MediaItem mediaItem : mMediaSelectedList) {
                             if (mediaItem.getPathOrigin(ChatActivity.this).endsWith(".png")
                                     || mediaItem.getPathOrigin(ChatActivity.this).endsWith(".jpeg")
