@@ -9,4 +9,5 @@ public class Constant {
     public static final String TABLE_PUBLIC_ADVS = "PublicAdvs";
     public static final String TABLE_TOP_GROUPS = "TopGroups";
     public static final String TABLE_UNSEEN = "unseen_messages";
+    public static final String TABLE_ACTIVE = "Active";
 }

@@ -173,6 +173,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
     private Realm realm;
     private List<Message> result = new ArrayList<>();
+    private boolean isExist=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +203,8 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         }
         mFirebaseDatabaseReference.child(Constant.TABLE_UNSEEN).child(groupId)
                 .child(ChattingActivity.getUid()).child("counter").setValue(0);
+        mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
+                .child(ChattingActivity.getUid()).setValue(true);
     }
 
     @AfterViews
@@ -809,10 +812,13 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                     if (!group.getMembers().get(i).equals(ChattingActivity.getUid())) {
                         RealmResults<User> realmResultsUser =
                                 realm.where(User.class).equalTo("objectId", group.getMembers().get(i)).findAll();
-                        if (i != (group.getMembers().size() - 1))
+                        if (i != (group.getMembers().size() - 1)) {
+                           if (!checkIfExist(group.getMembers().get(i)))
                             deviceToken = realmResultsUser.get(i).getDeviceToken() + ",";
-                        else
+                        } else {
+                            if (!checkIfExist(group.getMembers().get(i)))
                             deviceToken = realmResultsUser.get(i).getDeviceToken();
+                        }
                     }
                 }
             }
@@ -832,6 +838,27 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean checkIfExist(final String memberId) {
+        mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
+                .child(memberId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("///",dataSnapshot.getValue()+"");
+                Log.i("///",memberId+"");
+//                if ((Boolean) dataSnapshot.getValue()){
+//                    isExist=true;
+//                    return;
+//                }else  isExist=false;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                isExist=false;
+            }
+        });
+        return isExist;
     }
 
     private void writeNewGroup() {
@@ -1223,6 +1250,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         if (result.isEmpty()) {
             mFirebaseDatabaseReference.child(Constant.TABLE_MESSAGE).child(groupId).removeValue();
             mFirebaseDatabaseReference.child(Constant.TABLE_TYPING).child(groupId).removeValue();
+
             typing_toolbar.setVisibility(View.GONE);
             if (!realm.isInTransaction()) {
                 realm.beginTransaction();
@@ -1252,6 +1280,8 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
         } else {
             mFirebaseDatabaseReference.child(Constant.TABLE_TYPING).child(groupId).child(ChattingActivity.getUid()).setValue(false);
+            mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
+                    .child(ChattingActivity.getUid()).setValue(false);
             typing_toolbar.setVisibility(View.GONE);
         }
     }
@@ -1364,4 +1394,13 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 //                return super.onOptionsItemSelected(item);
 //        }
 //    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
+                .child(ChattingActivity.getUid()).setValue(false);
+    }
+
 }
