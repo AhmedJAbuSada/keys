@@ -2,7 +2,9 @@ package com.keys.chats.chats;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -30,6 +32,7 @@ class ChatGroupRecyclerViewAdapter extends RecyclerViewAdapterBase<User, chatGro
     private ValueFilter valueFilter;
 
     private Map<String, Boolean> list = new HashMap<>();
+    final ArrayList<String> checklist = new ArrayList<>();
 
     public Map<String, Boolean> getList() {
         return list;
@@ -45,17 +48,31 @@ class ChatGroupRecyclerViewAdapter extends RecyclerViewAdapterBase<User, chatGro
         final User s = items.get(position);
         view.bind(s);
         Log.e("list", MyApplication.gson.toJson(getList()) + "");
-        if (getList().containsKey(s.getObjectId()))
-            view.add.setChecked(getList().get(s.getObjectId()));
-
-        view.add.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                getList().put(s.getObjectId(), b);
-            }
-        });
-//        if (view.progressBar.getVisibility() == View.GONE) {
-//        }
+//        if (getList().containsKey(s.getObjectId()))
+//            view.add.setChecked(getList().get(s.getObjectId()));
+//
+//        view.add.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                getList().put(s.getObjectId(), b);
+//            }
+//        });
+      view.add.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              User filterClass = items.get(position);
+              CheckBox cb = (CheckBox) view;
+              filterClass = (User) cb.getTag();
+              filterClass.setCheck(cb.isChecked());
+              if (filterClass.getCheck()) {
+                  checklist.add(filterClass.getObjectId());
+              } else {
+                  checklist.remove(filterClass.getObjectId());
+              }
+          }
+      });
+        view.add.setSelected(items.get(position).getCheck());
+        view.add.setTag(items.get(position));
     }
 
     @Override

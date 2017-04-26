@@ -9,6 +9,15 @@ public class User extends RealmObject implements Serializable{
             latitude, longitude, mobileNo, objectId, os, picture, userQRCode, statusId;
     private double updatedAt, createdAt;
 
+    public Boolean getCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(Boolean check) {
+        isCheck = check;
+    }
+
+    Boolean isCheck;
     public User() {
     }
 

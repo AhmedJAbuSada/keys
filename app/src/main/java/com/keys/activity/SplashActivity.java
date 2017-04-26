@@ -46,15 +46,15 @@ public class SplashActivity extends Activity {
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "Alakob.ttf");
         logo_txt.setTypeface(typeface);
+        getData(0);
+//        if (MyApplication.myPrefs.isFirstLunch().get()) {
+//            if(Utils.isOnline(SplashActivity.this))
+//                getData(0);
+//            else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
+//        }else
+//            GoToTargetActivity();
 
-        if (MyApplication.myPrefs.isFirstLunch().get()) {
-            if(Utils.isOnline(SplashActivity.this))
-                getData(0);
-            else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
-        }else
-            GoToTargetActivity();
 
-        getData(1);
     }
 
     private void GoToTargetActivity() {

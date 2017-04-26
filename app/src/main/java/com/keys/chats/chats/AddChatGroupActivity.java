@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import com.keys.chats.model.GroupRealm;
 import com.keys.chats.model.Members;
 import com.keys.chats.model.User;
 import com.keys.chats.utilities.Constant;
+import com.keys.emoji.EmojiconRecentsManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -64,9 +66,9 @@ public class AddChatGroupActivity extends AppCompatActivity {
     @ViewById(R.id.group_name)
     EditText group_name;
 
-    @Bean
-    ChatGroupRecyclerViewAdapter adapter;
-
+//    @Bean
+//    ChatGroupRecyclerViewAdapter adapter;
+    FilterAdapter adapter;
     private DatabaseReference mFirebaseDatabaseReference;
     LinearLayoutManager mLayoutManager;
     Realm realm;
@@ -74,6 +76,8 @@ public class AddChatGroupActivity extends AppCompatActivity {
     List<User> userList = new ArrayList<>();
     List<String> phoneList = new ArrayList<>();
     Map<String, Boolean> list = new HashMap<>();
+    List<String> checklist = new ArrayList<>();
+    List<User> filterList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,10 +115,20 @@ public class AddChatGroupActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+             filterList.clear();
+                for (int i = 0; i < userList.size(); i++) {
+                    if ((userList.get(i).getFullName().toUpperCase()).contains(newText.toString().toUpperCase())) {
+//                        Log.i("/////",userList.get(i).getCheck()+" hhh");
+                        filterList.add(userList.get(i));
+//                        Log.i("/////",filterList.get(i).getCheck()+" aaa");
+                    }
+                }
+//                adapter.setItems(filterList);
+//                recyclerView.setAdapter(adapter);
+                setRVAdapter(filterList);
+                // adapter.getFilter().filter(newText);
 
-                adapter.getFilter().filter(newText);
-
-                return false;
+                return true;
             }
         });
 
@@ -134,6 +148,26 @@ public class AddChatGroupActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
+    private void setRVAdapter(final List<User> filterList) {
+        adapter = new FilterAdapter(this, filterList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                User filterClass = filterList.get(position);
+                CheckBox cb = (CheckBox) v;
+                filterClass = (User) cb.getTag();
+                filterClass.setCheck(cb.isChecked());
+                if (filterClass.getCheck()) {
+                    checklist.add(filterClass.getObjectId());
+                } else {
+                    checklist.remove(filterClass.getObjectId());
+                }
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,12 +180,12 @@ public class AddChatGroupActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                if (!TextUtils.isEmpty(group_name.getText().toString()) && !list.isEmpty())
+                if (!TextUtils.isEmpty(group_name.getText().toString()) && !checklist.isEmpty())
                     writeNewGroup();
                 else {
                     if (TextUtils.isEmpty(group_name.getText().toString()))
                         Toast.makeText(AddChatGroupActivity.this, getString(R.string.name_empty), Toast.LENGTH_SHORT).show();
-                    if (list.isEmpty())
+                    if (checklist.isEmpty())
                         Toast.makeText(AddChatGroupActivity.this, getString(R.string.list_empty), Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -163,9 +197,12 @@ public class AddChatGroupActivity extends AppCompatActivity {
     // [START basic_write]
     private void writeNewGroup() {
         List<String> members = new ArrayList<>();
-        for (String key : list.keySet()) {
-            if (list.get(key))
-                members.add(key);
+//        for (String key : list.keySet()) {
+//            if (list.get(key))
+//                members.add(key);
+//        }
+        for (int i=0;i<checklist.size();i++){
+            members.add(checklist.get(i));
         }
         members.add(getUid());
         long time = System.currentTimeMillis();
@@ -309,6 +346,7 @@ public class AddChatGroupActivity extends AppCompatActivity {
                                         User person = new User(country, displayStatus, deviceToken, email, fullName,
                                                 latitude, longitude, mobileNo, objectId, os, picture,
                                                 "userQRCode", updatedAt, createdAt, statusId);
+                                        person.setCheck(false);
                                         userList.add(person);
 //                                        list.put(person.getObjectId(), false);
                                         realm.beginTransaction();
@@ -337,10 +375,11 @@ public class AddChatGroupActivity extends AppCompatActivity {
                             }
                         }
                         hidepDialog();
-                        adapter.setList(list);
-                        adapter.users = userList;
-                        adapter.setItems(userList);
-                        recyclerView.setAdapter(adapter);
+//                        adapter.setList(list);
+//                        adapter.users = userList;
+//                        adapter.setItems(userList);
+//                        recyclerView.setAdapter(adapter);
+                        setRVAdapter(userList);
                     }
 
                     @Override
