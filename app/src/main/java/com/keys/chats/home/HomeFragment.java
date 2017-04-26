@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +31,6 @@ import com.keys.chats.utilities.RecyclerTouchListener;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -77,7 +77,8 @@ public class HomeFragment extends Fragment {
     @AfterViews
     void afterView() {
         inintDialog();
-
+        ImageView image_toolbar = (ImageView) getActivity().findViewById(R.id.image_toolbar);
+        image_toolbar.setImageResource(0);
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {

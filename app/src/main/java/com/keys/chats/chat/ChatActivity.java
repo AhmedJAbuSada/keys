@@ -52,6 +52,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kbeanie.multipicker.api.CameraImagePicker;
@@ -215,9 +216,13 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         }
 
         typing_toolbar.setVisibility(View.GONE);
-        if (user != null)
-            title_toolbar.setText(user.getFullName());
-        else
+        if (user != null) {
+            if (MyApplication.myPrefs.user().get().equals(user.getObjectId())) {
+                getUser(user.getObjectId());
+            } else {
+                title_toolbar.setText(user.getFullName());
+            }
+        } else
             title_toolbar.setText(group.getName());
 
         askForPermissions(new String[]{
@@ -312,6 +317,25 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
             }
         });
+    }
+
+    private void getUser(String objectId) {
+        FirebaseDatabase.getInstance().getReference().child(Constant.TABLE_USER)
+                .child(objectId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        Log.e("dataSnapshot", MyApplication.gson.toJson(dataSnapshot.child("fullName").getValue())
+//                                + "     " + MyApplication.gson.toJson(dataSnapshot.getValue()));
+                        String name_chat = String.valueOf(dataSnapshot.child("fullName").getValue().toString());
+                        title_toolbar.setText(name_chat);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public void getAllMessageFromFirebase() {
@@ -866,11 +890,16 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     }
 
     public void sendFileFirebase(StorageReference storageReference, final Uri file) {
-        showpDialog();
         if (storageReference != null) {
             final String name = DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date()).toString();
             StorageReference imageGalleryRef = storageReference.child(name + "_pic");
             UploadTask uploadTask = imageGalleryRef.putFile(file);
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    showpDialog();
+                }
+            });
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -880,7 +909,6 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    hidepDialog();
                     Log.i(TAG, "onSuccess sendFileFirebase");
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     assert downloadUrl != null;
@@ -895,22 +923,29 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                     double picture_width = 100.0;
                     double picture_height = 100.0;
                     String picture = downloadUrl.toString();
+                    Log.e("picture", "//" + picture);
                     Message message = new Message(picture, picture_height, picture_width, senderId, senderName,
                             IMG, time, groupId, messageId);
                     postSendNotification(getString(R.string.you_have_messsage));
                     addMessageObj(message, messageId);
                     addRecentMessage(getString(R.string.image_message), IMG);
+                    hidepDialog();
                 }
             });
         }
     }
 
     public void sendFileVideoFirebase(StorageReference storageReference, final Uri file, final double duration) {
-        showpDialog();
         if (storageReference != null) {
             final String name = DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date()).toString();
             StorageReference imageGalleryRef = storageReference.child(name + "_video");
             UploadTask uploadTask = imageGalleryRef.putFile(file);
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    showpDialog();
+                }
+            });
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -943,14 +978,20 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     }
 
     public void sendFileRecordFirebase(StorageReference storageReference, final File file) {
-        showpDialog();
         if (storageReference != null) {
             final String name = DateFormat.format("yyyy-MM-dd_hh:mm:ss", new Date()).toString();
             StorageReference audioGalleryRef = storageReference.child(name + "_audio");
             UploadTask uploadTask = audioGalleryRef.putFile(Uri.fromFile(file));
+            uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    showpDialog();
+                }
+            });
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    hidepDialog();
                     Log.e(TAG, "onFailure sendFileFirebase " + e.getMessage());
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -979,6 +1020,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                     postSendNotification(getString(R.string.you_have_record_messsage));
                     addMessageObj(message, messageId);
                     addRecentMessage(getString(R.string.audio_message), AUDIO);
+                    hidepDialog();
                 }
             });
         }

@@ -104,7 +104,6 @@ public class FullScreenImageActivity extends AppCompatActivity {
             public void onLoadStarted(Drawable placeholder) {
                 progressDialog.setMessage(getString(R.string.pleaseWait));
                 progressDialog.show();
-                progressDialog.setCancelable(false);
                 progressDialog.setCanceledOnTouchOutside(false);
             }
 
