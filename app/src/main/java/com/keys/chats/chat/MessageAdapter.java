@@ -23,6 +23,7 @@ import com.google.firebase.appindexing.builders.Indexables;
 import com.google.firebase.appindexing.builders.PersonBuilder;
 import com.keys.MyApplication;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.chats.ChattingActivity;
 import com.keys.chats.model.Message;
 
@@ -106,34 +107,34 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.messageTextView.setText(messageList.get(position).getText());
 //                String name = messageList.get(position).getSenderName().substring(0,
 //                        messageList.get(position).getSenderName().indexOf("@"));
-                holder.messengerTextView.setText(messageList.get(position).getSenderName());
+                holder.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holder.messageDate.setText(time);
                 break;
             case TYPE_MESSAGE_RIGHT:
                 MessageAdapter.viewHolder holderR = (MessageAdapter.viewHolder) viewHolder;
                 holderR.messageTextView.setText(messageList.get(position).getText());
-                holderR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderR.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderR.messageDate.setText(time);
                 break;
             case TYPE_IMG:
                 MessageAdapter.viewHolderImg holderImg = (MessageAdapter.viewHolderImg) viewHolder;
-                holderImg.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderImg.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderImg.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.IMG)) {
-                    holderImg.tvIsLocation(View.GONE);
+                    //  holderImg.tvIsLocation(View.GONE);
                     holderImg.setIvChatPhoto(messageList.get(position).getPicture());
                 } else if (messageList.get(position).getType().equals(ChatActivity.MAP)) {
-                    holderImg.tvIsLocation(View.VISIBLE);
+                    // holderImg.tvIsLocation(View.VISIBLE);
                     String loc = local(messageList.get(position).getLatitude(), messageList.get(position).getLongitude());
                     holderImg.setIvChatPhoto(loc);
                 }
                 break;
             case TYPE_VIDEO:
                 MessageAdapter.viewHolderImg holderVideo = (MessageAdapter.viewHolderImg) viewHolder;
-                holderVideo.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderVideo.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderVideo.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.VIDEO)) {
-                    holderVideo.tvIsLocation(View.GONE);
+                    //  holderVideo.tvIsLocation(View.GONE);
                     Glide.with(holderVideo.img_chat.getContext()).load(messageList.get(position).getPicture())
                             .override(100, 100)
                             .fitCenter()
@@ -141,42 +142,45 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holderVideo.img_chat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(context, VideoPlayerActivity.class);
-                            i.putExtra("url", messageList.get(position).getVideo());
-                            context.startActivity(i);
+//                            Intent i = new Intent(context, VideoPlayerActivity.class);
+//                            i.putExtra("url", messageList.get(position).getVideo());
+//                            context.startActivity(i);
+                            VideoPlayerActivity_.intent(context).url(messageList.get(position).getVideo()).start();
+
                         }
                     });
                 }
                 break;
             case TYPE_IMG_RIGHT:
                 MessageAdapter.viewHolderImg holderImgR = (MessageAdapter.viewHolderImg) viewHolder;
-                holderImgR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderImgR.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderImgR.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.IMG)) {
-                    holderImgR.tvIsLocation(View.GONE);
+                    // holderImgR.tvIsLocation(View.GONE);
                     holderImgR.setIvChatPhoto(messageList.get(position).getPicture());
                 } else if (messageList.get(position).getType().equals(ChatActivity.MAP)) {
-                    holderImgR.tvIsLocation(View.VISIBLE);
+                    //   holderImgR.tvIsLocation(View.VISIBLE);
                     String loc = local(messageList.get(position).getLatitude(), messageList.get(position).getLongitude());
                     holderImgR.setIvChatPhoto(loc);
                 }
                 break;
             case TYPE_VIDEO_RIGHT:
                 MessageAdapter.viewHolderImg holderVideoR = (MessageAdapter.viewHolderImg) viewHolder;
-                holderVideoR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderVideoR.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderVideoR.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.VIDEO)) {
-                    holderVideoR.tvIsLocation(View.GONE);
+                    // holderVideoR.tvIsLocation(View.GONE);
                     Glide.with(holderVideoR.img_chat.getContext()).load(messageList.get(position).getPicture())
                             .override(100, 100)
-                            .fitCenter()
+                             .fitCenter()
                             .into(holderVideoR.img_chat);
                     holderVideoR.img_chat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(context, VideoPlayerActivity.class);
-                            i.putExtra("url", messageList.get(position).getVideo());
-                            context.startActivity(i);
+                            VideoPlayerActivity_.intent(context).url(messageList.get(position).getVideo()).start();
+//                            Intent i = new Intent(context, VideoPlayerActivity.class);
+//                            i.putExtra("url", messageList.get(position).getVideo());
+//                            context.startActivity(i);
                         }
                     });
                 }
@@ -305,19 +309,19 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Message message = messageList.get(position);
         if (message.getSenderId().equals(ChattingActivity.getUid()))
             switch (message.getType()) {
-            case ChatActivity.IMG:
-                return TYPE_IMG_RIGHT;
-            case ChatActivity.MAP:
-                return TYPE_IMG_RIGHT;
-            case ChatActivity.AUDIO:
-                return TYPE_AUDIO_RIGHT;
-            case ChatActivity.VIDEO:
-                return TYPE_VIDEO_RIGHT;
-            case ChatActivity.TEXT:
-                return TYPE_MESSAGE_RIGHT;
-            default:
-                return TYPE_MESSAGE_RIGHT;
-        }
+                case ChatActivity.IMG:
+                    return TYPE_IMG_RIGHT;
+                case ChatActivity.MAP:
+                    return TYPE_IMG_RIGHT;
+                case ChatActivity.AUDIO:
+                    return TYPE_AUDIO_RIGHT;
+                case ChatActivity.VIDEO:
+                    return TYPE_VIDEO_RIGHT;
+                case ChatActivity.TEXT:
+                    return TYPE_MESSAGE_RIGHT;
+                default:
+                    return TYPE_MESSAGE_RIGHT;
+            }
         else
             switch (message.getType()) {
                 case ChatActivity.IMG:

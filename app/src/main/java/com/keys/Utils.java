@@ -188,12 +188,11 @@ public class Utils {
         }
         return sb.toString();
     }
-
-    public static boolean hasNewBill() {
-
-
-        return false;
+    public static String getName(String name) {
+     String[] username= name.split("@");
+        return username[0];
     }
+
 
 //    public static void call(Context context, String str) {
 //        context.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel://" + str)));

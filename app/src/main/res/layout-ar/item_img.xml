@@ -2,12 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center|left"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingTop="5dp">
 
     <me.himanshusoni.chatmessageview.ChatMessageView
@@ -24,7 +22,7 @@
         app:cmv_showArrow="true">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
             android:orientation="vertical">
@@ -34,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
 
@@ -45,22 +42,19 @@
                     android:layout_weight="1"
                     android:ellipsize="start"
                     android:gravity="left"
+                    android:textSize="@dimen/note_text_size"
                     android:maxLines="1"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp" />
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:paddingLeft="3dp" />
 
-                <TextView
-                    android:id="@+id/messageDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right" />
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/img_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:background="#000"
                 android:maxHeight="150dp"
                 android:maxWidth="150dp"
@@ -72,11 +66,20 @@
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="2dp"
-                android:textSize="10sp"
+                android:padding="3dp"
+                android:textSize="@dimen/note_text_size"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/messageDate"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/note_text_size"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingBottom="3dp"
+                android:paddingRight="3dp"
+                android:paddingLeft="3dp" />
         </LinearLayout>
     </me.himanshusoni.chatmessageview.ChatMessageView>
 
