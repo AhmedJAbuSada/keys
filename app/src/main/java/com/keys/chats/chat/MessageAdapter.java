@@ -2,11 +2,10 @@ package com.keys.chats.chat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.MediaPlayer;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +26,7 @@ import com.keys.R;
 import com.keys.chats.ChattingActivity;
 import com.keys.chats.model.Message;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import nl.changer.audiowife.AudioWife;
@@ -145,10 +141,9 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holderVideo.img_chat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            VideoPlayerActivity_.intent(context).url(messageList.get(position).getVideo()).start();
-//                            Intent i = new Intent(context, VideoPlayerActivity.class);
-//                            i.putExtra("url", messageList.get(position).getVideo());
-//                            context.startActivity(i);
+                            Intent i = new Intent(context, VideoPlayerActivity.class);
+                            i.putExtra("url", messageList.get(position).getVideo());
+                            context.startActivity(i);
                         }
                     });
                 }
@@ -179,102 +174,28 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holderVideoR.img_chat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            VideoPlayerActivity_.intent(context).url(messageList.get(position).getVideo()).start();
-//                            Intent i = new Intent(context, VideoPlayerActivity.class);
-//                            i.putExtra("url", messageList.get(position).getVideo());
-//                            context.startActivity(i);
+                            Intent i = new Intent(context, VideoPlayerActivity.class);
+                            i.putExtra("url", messageList.get(position).getVideo());
+                            context.startActivity(i);
                         }
                     });
                 }
                 break;
             case TYPE_AUDIO:
-                final MessageAdapter.viewHolderAudio holderAudio = (MessageAdapter.viewHolderAudio) viewHolder;
-                Log.e("AUDIOO", messageList.get(position).getAudio());
-                final MediaPlayer mMediaPlayer = new MediaPlayer();
-                holderAudio.mPlayMedia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                try {
-                                    mMediaPlayer.setDataSource(context, Uri.parse(messageList.get(position).getAudio()));
-                                    final int duration = mMediaPlayer.getDuration();
-                                    final int amoungToupdate = duration / 150;
-                                    Timer mTimer = new Timer();
-                                    mTimer.schedule(new TimerTask() {
-
-                                        @Override
-                                        public void run() {
-                                            if (!(amoungToupdate * holderAudio.mMediaSeekBar.getProgress() >= duration)) {
-                                                int p = holderAudio.mMediaSeekBar.getProgress();
-                                                p += 1;
-                                                holderAudio.mMediaSeekBar.setProgress(p);
-                                            }
-                                        }
-                                    }, amoungToupdate);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                    }
-                });
-
-
-//                    AudioWife.getInstance()
-//                            .init(context, Uri.parse(messageList.get(position).getAudio()))
-//                            .setPlayView(holderAudio.mPlayMedia)
-//                            .setPauseView(holderAudio.mPauseMedia)
-//                            .setSeekBar(holderAudio.mMediaSeekBar)
-//                            .setRuntimeView(holderAudio.mRunTime)
-//                            .setTotalTimeView(holderAudio.mTotalTime);
+                MessageAdapter.viewHolderAudio holderAudio = (MessageAdapter.viewHolderAudio) viewHolder;
+                if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
+                    // AudioWife takes care of click
+                    // handler for play/pause button
+                    AudioWife.getInstance()
+                            .init(context, Uri.parse(messageList.get(position).getAudio()))
+                            .setPlayView(holderAudio.mPlayMedia)
+                            .setPauseView(holderAudio.mPauseMedia)
+                            .setSeekBar(holderAudio.mMediaSeekBar)
+                            .setRuntimeView(holderAudio.mRunTime)
+                            .setTotalTimeView(holderAudio.mTotalTime);
+                }
                 break;
-           case TYPE_AUDIO_RIGHT:
-                final MessageAdapter.viewHolderAudio holderAudioR = (MessageAdapter.viewHolderAudio) viewHolder;
-                Log.e("AUDIOO", messageList.get(position).getAudio());
-                final MediaPlayer mMediaPlayerR = new MediaPlayer();
-                holderAudioR.mPlayMedia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mMediaPlayerR.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                try {
-                                    mMediaPlayerR.setDataSource(context, Uri.parse(messageList.get(position).getAudio()));
-                                    final int duration = mMediaPlayerR.getDuration();
-                                    final int amoungToupdate = duration / 150;
-                                    Timer mTimer = new Timer();
-                                    mTimer.schedule(new TimerTask() {
-
-                                        @Override
-                                        public void run() {
-                                            if (!(amoungToupdate * holderAudioR.mMediaSeekBar.getProgress() >= duration)) {
-                                                int p = holderAudioR.mMediaSeekBar.getProgress();
-                                                p += 1;
-                                                holderAudioR.mMediaSeekBar.setProgress(p);
-                                            }
-                                        }
-                                    }, amoungToupdate);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                    }
-                });
-
-
-//                    AudioWife.getInstance()
-//                            .init(context, Uri.parse(messageList.get(position).getAudio()))
-//                            .setPlayView(holderAudioR.mPlayMedia)
-//                            .setPauseView(holderAudioR.mPauseMedia)
-//                            .setSeekBar(holderAudioR.mMediaSeekBar)
-//                            .setRuntimeView(holderAudioR.mRunTime)
-//                            .setTotalTimeView(holderAudioR.mTotalTime);
-                break;
         }
 
 

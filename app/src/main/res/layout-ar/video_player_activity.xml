@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,9 +8,10 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        app:theme="@style/ToolbarColoredBackArrow"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:elevation="@dimen/elevation_header" />
+        android:elevation="4dp" />
 
     <VideoView
         android:id="@+id/videoView"

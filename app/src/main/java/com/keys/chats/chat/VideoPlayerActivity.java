@@ -24,7 +24,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
     Toolbar toolbar;
     @ViewById(R.id.videoView)
     VideoView videoView;
-
     @Extra
     String url;
 
@@ -36,9 +35,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
 
     @AfterViews
     void afterView() {
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle("Video");
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitle("Video");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -47,17 +45,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
                 finish();
             }
         });
-
-        if (url != null) {
-            Log.e("url", url + "");
-            MediaController mediaController = new MediaController(this);
-            mediaController.setAnchorView(videoView);
-            videoView.setMediaController(mediaController);
-            videoView.setOnCompletionListener(this);
-            videoView.setVideoURI(Uri.parse(url));
-            videoView.start();
-
-        }
+            if (url != null) {
+                MediaController mediaController = new MediaController(this);
+                mediaController.setAnchorView(videoView);
+                videoView.setMediaController(mediaController);
+                Log.e("url", url + "");
+                videoView.setOnCompletionListener(this);
+                videoView.setVideoURI(Uri.parse(url));
+                videoView.start();
+            }
     }
 
     @Override

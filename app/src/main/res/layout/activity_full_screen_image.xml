@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#424242">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/FullScreen.TextAppearance.Title"
+        app:theme="@style/ToolbarColoredBackArrow"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"
