@@ -1069,7 +1069,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         popupWindowList.setAnchorView(view);
         popupWindowList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         String[] list = {getString(R.string.camera), getString(R.string.gallery),
-                getString(R.string.sendLocation)/*, getString(R.string.record)*/};
+                getString(R.string.sendLocation), getString(R.string.record)};
         ArrayAdapter<String> popAdapter = new ArrayAdapter<>(ChatActivity.this, R.layout.setting, list);
         popupWindowList.setAdapter(popAdapter);
         popupWindowList.setContentWidth(measureContentWidth(popAdapter));
@@ -1088,9 +1088,9 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                     case 2:
                         locationPlacesIntent();
                         break;
-//                    case 3:
-//                        recordAudio();
-//                        break;
+                    case 3:
+                        recordAudio();
+                        break;
                 }
                 popupWindowList.dismiss();
             }

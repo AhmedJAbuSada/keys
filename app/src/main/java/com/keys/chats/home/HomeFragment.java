@@ -124,7 +124,6 @@ public class HomeFragment extends Fragment {
                         for (DataSnapshot dataSnapshotChild : dataSnapshot.getChildren()) {
                             JSONObject jUserData = new JSONObject((Map) dataSnapshotChild.getValue());
                             try {
-                                Log.e("jUserData", MyApplication.gson.toJson(jUserData));
                                 int id = jUserData.optInt("id");
                                 String date1 = jUserData.optString("date1");
                                 String date2 = jUserData.optString("date2");

@@ -49,7 +49,6 @@ public class ChatsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         groupRealms = realm.where(GroupRealm.class).equalTo("members.memberId", ChattingActivity.getUid()).findAll();
-        Log.e("groupRealms", groupRealms.size() + "");
         for (GroupRealm groupRealm : groupRealms) {
             List<String> memberList = new ArrayList<>();
             for (int i = 0; i < groupRealm.getMembers().size(); i++) {

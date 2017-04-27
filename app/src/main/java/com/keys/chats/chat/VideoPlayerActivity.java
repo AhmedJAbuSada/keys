@@ -13,7 +13,9 @@ import android.widget.VideoView;
 
 import com.keys.R;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.video_player_activity)
@@ -23,17 +25,22 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
     @ViewById(R.id.videoView)
     VideoView videoView;
 
+    @Extra
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSupportActionBar(toolbar);
+
+    }
+
+    @AfterViews
+    void afterView() {
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle("Video");
         toolbar.setTitleTextColor(Color.WHITE);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,22 +48,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements MediaPlaye
             }
         });
 
-        String url;
-        if (getIntent().hasExtra("url")) {
-            url = getIntent().getExtras().getString("url");
+        if (url != null) {
+            Log.e("url", url + "");
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoView);
+            videoView.setMediaController(mediaController);
+            videoView.setOnCompletionListener(this);
+            videoView.setVideoURI(Uri.parse(url));
+            videoView.start();
 
-            if (url != null) {
-                MediaController mediaController = new MediaController(this);
-                mediaController.setAnchorView(videoView);
-                videoView.setMediaController(mediaController);
-                Log.e("url", url + "");
-                videoView.setOnCompletionListener(this);
-                videoView.setVideoURI(Uri.parse(url));
-                videoView.start();
-
-            }
-        } else {
-            throw new IllegalArgumentException("Must set url extra paremeter in intent.");
         }
     }
 

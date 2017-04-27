@@ -80,12 +80,10 @@ public class FullScreenImageActivity extends AppCompatActivity {
 
     private void bindViews() {
         progressDialog = new ProgressDialog(this);
-        toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitle(nameUser);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
