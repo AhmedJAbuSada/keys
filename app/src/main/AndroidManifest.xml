@@ -113,31 +113,31 @@
         <activity
             android:name=".chats.contacts.ContactDetailsActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+          />
         <activity
             android:name=".chats.contacts.ContactActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+     />
         <activity
             android:name=".chats.chat.ChatActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+          />
         <activity
             android:name=".chats.chats.AddChatGroupActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+         />
         <activity
             android:name=".chats.chats.AddChatActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            />
         <activity
             android:name=".chats.chat.FullScreenImageActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            />
         <activity
             android:name=".chats.chat.VideoPlayerActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+           />
         <activity
             android:name="vn.tungdx.mediapicker.activities.MediaPickerActivity"
             android:screenOrientation="portrait"

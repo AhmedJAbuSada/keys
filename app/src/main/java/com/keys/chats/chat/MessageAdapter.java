@@ -3,9 +3,15 @@ package com.keys.chats.chat;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +29,11 @@ import com.google.firebase.appindexing.builders.Indexables;
 import com.google.firebase.appindexing.builders.PersonBuilder;
 import com.keys.MyApplication;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.chats.ChattingActivity;
 import com.keys.chats.model.Message;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -44,7 +52,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
     private ClickListenerChatFirebase mClickListenerChatFirebase;
     private Context context;
-
+    private MediaPlayer mMediaPlayer;
     MessageAdapter(Context context, List<Message> messageList, ClickListenerChatFirebase mClickListenerChatFirebase) {
         this.messageList = messageList;
 //        this.mUsername = mUsername;
@@ -106,18 +114,18 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.messageTextView.setText(messageList.get(position).getText());
 //                String name = messageList.get(position).getSenderName().substring(0,
 //                        messageList.get(position).getSenderName().indexOf("@"));
-                holder.messengerTextView.setText(messageList.get(position).getSenderName());
+                holder.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holder.messageDate.setText(time);
                 break;
             case TYPE_MESSAGE_RIGHT:
                 MessageAdapter.viewHolder holderR = (MessageAdapter.viewHolder) viewHolder;
                 holderR.messageTextView.setText(messageList.get(position).getText());
-                holderR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderR.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderR.messageDate.setText(time);
                 break;
             case TYPE_IMG:
                 MessageAdapter.viewHolderImg holderImg = (MessageAdapter.viewHolderImg) viewHolder;
-                holderImg.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderImg.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderImg.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.IMG)) {
                     holderImg.tvIsLocation(View.GONE);
@@ -130,7 +138,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_VIDEO:
                 MessageAdapter.viewHolderImg holderVideo = (MessageAdapter.viewHolderImg) viewHolder;
-                holderVideo.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderVideo.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderVideo.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.VIDEO)) {
                     holderVideo.tvIsLocation(View.GONE);
@@ -141,16 +149,15 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holderVideo.img_chat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(context, VideoPlayerActivity.class);
-                            i.putExtra("url", messageList.get(position).getVideo());
-                            context.startActivity(i);
+                            VideoPlayerActivity_.intent(context).url( messageList.get(position).getVideo()).start();
+
                         }
                     });
                 }
                 break;
             case TYPE_IMG_RIGHT:
                 MessageAdapter.viewHolderImg holderImgR = (MessageAdapter.viewHolderImg) viewHolder;
-                holderImgR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderImgR.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderImgR.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.IMG)) {
                     holderImgR.tvIsLocation(View.GONE);
@@ -163,7 +170,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_VIDEO_RIGHT:
                 MessageAdapter.viewHolderImg holderVideoR = (MessageAdapter.viewHolderImg) viewHolder;
-                holderVideoR.messengerTextView.setText(messageList.get(position).getSenderName());
+                holderVideoR.messengerTextView.setText(Utils.getName(messageList.get(position).getSenderName()));
                 holderVideoR.messageDate.setText(time);
                 if (messageList.get(position).getType().equals(ChatActivity.VIDEO)) {
                     holderVideoR.tvIsLocation(View.GONE);
@@ -174,39 +181,70 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holderVideoR.img_chat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(context, VideoPlayerActivity.class);
-                            i.putExtra("url", messageList.get(position).getVideo());
-                            context.startActivity(i);
+                            VideoPlayerActivity_.intent(context).url( messageList.get(position).getVideo()).start();
+//                            Intent i = new Intent(context, VideoPlayerActivity.class);
+//                            i.putExtra("url", messageList.get(position).getVideo());
+//                            context.startActivity(i);
                         }
                     });
                 }
                 break;
             case TYPE_AUDIO:
-                MessageAdapter.viewHolderAudio holderAudio = (MessageAdapter.viewHolderAudio) viewHolder;
+                final MessageAdapter.viewHolderAudio holderAudio = (MessageAdapter.viewHolderAudio) viewHolder;
                 if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
                     // AudioWife takes care of click
                     // handler for play/pause button
-                    AudioWife.getInstance()
-                            .init(context, Uri.parse(messageList.get(position).getAudio()))
-                            .setPlayView(holderAudio.mPlayMedia)
-                            .setPauseView(holderAudio.mPauseMedia)
-                            .setSeekBar(holderAudio.mMediaSeekBar)
-                            .setRuntimeView(holderAudio.mRunTime)
-                            .setTotalTimeView(holderAudio.mTotalTime);
+
+//                    killMediaPlayer();
+//                    mMediaPlayer = new MediaPlayer();
+//                    try {
+//                        mMediaPlayer.setDataSource(messageList.get(position).getAudio());
+//                        mMediaPlayer.prepare();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    holderAudio.mMediaSeekBar.setMax(mMediaPlayer.getDuration());
+//                    holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getDuration()));
+                    holderAudio.mPlayMedia.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudio);
+                        }
+                    });
+////                    period_play.setText(mediaPlayer.getDuration() + "");
+//                    AudioWife.getInstance()
+//                            .init(context, Uri.parse(messageList.get(position).getAudio()))
+//                            .setPlayView(holderAudio.mPlayMedia)
+//                            .setPauseView(holderAudio.mPauseMedia)
+//                            .setSeekBar(holderAudio.mMediaSeekBar)
+//                            .setRuntimeView(holderAudio.mRunTime)
+//                            .setTotalTimeView(holderAudio.mTotalTime);
+
                 }
                 break;
             case TYPE_AUDIO_RIGHT:
-                MessageAdapter.viewHolderAudio holderAudioR = (MessageAdapter.viewHolderAudio) viewHolder;
+                final MessageAdapter.viewHolderAudio holderAudioR = (MessageAdapter.viewHolderAudio) viewHolder;
                 if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
-                    // AudioWife takes care of click
-                    // handler for play/pause button
-                    AudioWife.getInstance()
-                            .init(context, Uri.parse(messageList.get(position).getAudio()))
-                            .setPlayView(holderAudioR.mPlayMedia)
-                            .setPauseView(holderAudioR.mPauseMedia)
-                            .setSeekBar(holderAudioR.mMediaSeekBar)
-                            .setRuntimeView(holderAudioR.mRunTime)
-                            .setTotalTimeView(holderAudioR.mTotalTime);
+//                   getMedia(messageList.get(position).getAudio(),holderAudioR);
+//                    holderAudioR.mPlayMedia.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            playAudio(holderAudioR);
+//                        }
+//                    });
+                    holderAudioR.mPlayMedia.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudioR);
+                        }
+                    });
+//                    AudioWife.getInstance()
+//                            .init(context, Uri.parse(messageList.get(position).getAudio()))
+//                            .setPlayView(holderAudioR.mPlayMedia)
+//                            .setPauseView(holderAudioR.mPauseMedia)
+//                            .setSeekBar(holderAudioR.mMediaSeekBar)
+//                            .setRuntimeView(holderAudioR.mRunTime)
+//                            .setTotalTimeView(holderAudioR.mTotalTime);
                 }
                 break;
 
@@ -218,6 +256,20 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         // log a view action on it
         FirebaseUserActions.getInstance().end(getMessageViewAction(messageList.get(position)));
+    }
+
+    private void getMedia(String audio,String duration, viewHolderAudio holderAudioR) {
+        killMediaPlayer();
+
+        new LoadVideoThumbnail(holderAudioR).execute(audio,duration);
+
+//        mMediaPlayer = new MediaPlayer();
+//        try {
+//            mMediaPlayer.setDataSource(audio);
+//            mMediaPlayer.prepare();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -249,7 +301,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private static class viewHolderAudio extends RecyclerView.ViewHolder {
-        private View mPlayMedia;
+        private ImageView mPlayMedia;
         private View mPauseMedia;
         private SeekBar mMediaSeekBar;
         private TextView mRunTime;
@@ -257,11 +309,15 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         viewHolderAudio(View v) {
             super(v);
-            mPlayMedia = v.findViewById(R.id.play);
-            mPauseMedia = v.findViewById(R.id.pause);
+            mPlayMedia = (ImageView) v.findViewById(R.id.play_icon);
             mMediaSeekBar = (SeekBar) v.findViewById(R.id.media_seekbar);
-            mRunTime = (TextView) v.findViewById(R.id.run_time);
-            mTotalTime = (TextView) v.findViewById(R.id.total_time);
+            mTotalTime = (TextView) v.findViewById(R.id.period_time);
+
+//            mPlayMedia = v.findViewById(R.id.play);
+//            mPauseMedia = v.findViewById(R.id.pause);
+//            mMediaSeekBar = (SeekBar) v.findViewById(R.id.media_seekbar);
+//            mRunTime = (TextView) v.findViewById(R.id.run_time);
+//            mTotalTime = (TextView) v.findViewById(R.id.total_time);
         }
     }
 
@@ -319,19 +375,19 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Message message = messageList.get(position);
         if (message.getSenderId().equals(ChattingActivity.getUid()))
             switch (message.getType()) {
-            case ChatActivity.IMG:
-                return TYPE_IMG_RIGHT;
-            case ChatActivity.MAP:
-                return TYPE_IMG_RIGHT;
-            case ChatActivity.AUDIO:
-                return TYPE_AUDIO_RIGHT;
-            case ChatActivity.VIDEO:
-                return TYPE_VIDEO_RIGHT;
-            case ChatActivity.TEXT:
-                return TYPE_MESSAGE_RIGHT;
-            default:
-                return TYPE_MESSAGE_RIGHT;
-        }
+                case ChatActivity.IMG:
+                    return TYPE_IMG_RIGHT;
+                case ChatActivity.MAP:
+                    return TYPE_IMG_RIGHT;
+                case ChatActivity.AUDIO:
+                    return TYPE_AUDIO_RIGHT;
+                case ChatActivity.VIDEO:
+                    return TYPE_VIDEO_RIGHT;
+                case ChatActivity.TEXT:
+                    return TYPE_MESSAGE_RIGHT;
+                default:
+                    return TYPE_MESSAGE_RIGHT;
+            }
         else
             switch (message.getType()) {
                 case ChatActivity.IMG:
@@ -380,4 +436,104 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSegundos),
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
     }
+
+    public void playAudio(String audio,String duration, final viewHolderAudio holderAudio) {
+        if (mMediaPlayer.isPlaying()) {
+           // Utils.showCustomToast(context,"stop");
+            if (mMediaPlayer != null) {
+                mMediaPlayer.pause();
+                holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
+            }
+        } else {
+            if (mMediaPlayer != null) {
+                try {
+                    mMediaPlayer.reset();
+                    mMediaPlayer.setDataSource(audio);
+                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mMediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+              //  mMediaPlayer.start();
+                holderAudio.mPlayMedia.setImageResource((R.drawable.ic_pause));
+                mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mediaPlayer) {
+                        mMediaPlayer.start();
+                       Log.e("------ ","play prepared");
+                    }
+                });
+//                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                    @Override
+//                    public void onCompletion(MediaPlayer mediaPlayer) {
+//                        killMediaPlayer();
+//                        holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
+//
+//                    }
+//                });
+//                holderAudio.mMediaSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
+//                holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getCurrentPosition()));
+                new Handler().postDelayed( new Runnable() {
+                    @Override
+                    public void run() {
+                        holderAudio.mMediaSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
+                        holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getCurrentPosition()));
+                    }
+                }, 1000);
+            }
+
+        }
+    }
+
+    private void killMediaPlayer() {
+        if(mMediaPlayer!=null) {
+            try {
+                mMediaPlayer.release();
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public class LoadVideoThumbnail extends AsyncTask<String, String, Boolean> {
+        viewHolderAudio holderAudioR;
+        String audio="";
+        String duration="";
+        public LoadVideoThumbnail(viewHolderAudio holderAudioR) {
+            this.holderAudioR=holderAudioR;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            mMediaPlayer = new MediaPlayer();
+            try {
+                audio=params[0];
+                duration=params[1];
+                Log.e("-----",params[0]+" aaa");
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mMediaPlayer.setDataSource(context,Uri.parse(params[0]));
+
+                if (mMediaPlayer==null){
+                    return  false;
+                }
+                return  true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return  false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                holderAudioR.mMediaSeekBar.setMax((int)(Double.parseDouble(duration)));
+                holderAudioR.mTotalTime.setText("" + Utils.milliSecondsToTimer((long)(Double.parseDouble(duration))));
+                playAudio(audio,duration,holderAudioR);
+            }else {
+                holderAudioR.mTotalTime.setText(duration);
+            }
+        }
+
+    }
+
 }

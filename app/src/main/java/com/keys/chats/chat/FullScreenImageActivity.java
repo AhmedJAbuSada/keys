@@ -14,10 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.keys.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,8 +34,8 @@ import org.androidannotations.annotations.ViewById;
 public class FullScreenImageActivity extends AppCompatActivity {
 
     @ViewById(R.id.imageView)
-    TouchImageView mImageView;
-//    @ViewById(R.id.avatar)
+    ImageView mImageView;
+    //    @ViewById(R.id.avatar)
 //    ImageView ivUser;
 //    @ViewById(R.id.title)
 //    TextView tvUser;
@@ -96,29 +102,59 @@ public class FullScreenImageActivity extends AppCompatActivity {
 
     private void setValues() {
 //        tvUser.setText(nameUser); // Name
-//        Glide.with(this).load(urlPhotoUser).centerCrop().transform(new CircleTransform(this)).override(40, 40).into(ivUser);
-
-        Glide.with(this).load(urlPhotoUser).asBitmap().override(640, 640).fitCenter().into(new SimpleTarget<Bitmap>() {
-
+        progressDialog.setMessage(getString(R.string.pleaseWait));
+        progressDialog.show();
+        progressDialog.setCanceledOnTouchOutside(false);
+//        Glide.with(this).load(urlPhotoUser).into(mImageView);
+        Picasso.with(this).load(urlPhotoUser).into(mImageView, new Callback() {
             @Override
-            public void onLoadStarted(Drawable placeholder) {
-                progressDialog.setMessage(getString(R.string.pleaseWait));
-                progressDialog.show();
-                progressDialog.setCanceledOnTouchOutside(false);
-            }
-
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+            public void onSuccess() {
                 progressDialog.dismiss();
-                mImageView.setImageBitmap(resource);
             }
 
             @Override
-            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                e.printStackTrace();
+            public void onError() {
                 progressDialog.dismiss();
             }
         });
+//        Glide.with(this).load(urlPhotoUser)
+//                //.crossFade().thumbnail(0.5f)
+//                .listener(new RequestListener<String, GlideDrawable>() {
+//
+//                    @Override
+//                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                        progressDialog.dismiss();
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                        progressDialog.dismiss();
+//
+//                        return false;
+//                    }
+//                }).into(mImageView);
+//        Glide.with(this).load(urlPhotoUser).asBitmap().override(640, 640).fitCenter().into(new SimpleTarget<Bitmap>() {
+//
+//            @Override
+//            public void onLoadStarted(Drawable placeholder) {
+//                progressDialog.setMessage(getString(R.string.pleaseWait));
+//                progressDialog.show();
+//                progressDialog.setCanceledOnTouchOutside(false);
+//            }
+//
+//            @Override
+//            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                progressDialog.dismiss();
+//                mImageView.setImageBitmap(resource);
+//            }
+//
+//            @Override
+//            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+//                e.printStackTrace();
+//                progressDialog.dismiss();
+//            }
+//        });
     }
 
 }

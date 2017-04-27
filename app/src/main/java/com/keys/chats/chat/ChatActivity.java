@@ -21,6 +21,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -178,6 +179,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         storage = FirebaseStorage.getInstance();
         realm = Realm.getDefaultInstance();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -813,10 +815,10 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                         RealmResults<User> realmResultsUser =
                                 realm.where(User.class).equalTo("objectId", group.getMembers().get(i)).findAll();
                         if (i != (group.getMembers().size() - 1)) {
-                           if (!checkIfExist(group.getMembers().get(i)))
+//                           if (!checkIfExist(group.getMembers().get(i)))
                             deviceToken = realmResultsUser.get(i).getDeviceToken() + ",";
                         } else {
-                            if (!checkIfExist(group.getMembers().get(i)))
+//                            if (!checkIfExist(group.getMembers().get(i)))
                             deviceToken = realmResultsUser.get(i).getDeviceToken();
                         }
                     }
