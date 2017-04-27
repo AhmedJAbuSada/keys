@@ -195,6 +195,20 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             .setTotalTimeView(holderAudio.mTotalTime);
                 }
                 break;
+            case TYPE_AUDIO_RIGHT:
+                MessageAdapter.viewHolderAudio holderAudioR = (MessageAdapter.viewHolderAudio) viewHolder;
+                if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
+                    // AudioWife takes care of click
+                    // handler for play/pause button
+                    AudioWife.getInstance()
+                            .init(context, Uri.parse(messageList.get(position).getAudio()))
+                            .setPlayView(holderAudioR.mPlayMedia)
+                            .setPauseView(holderAudioR.mPauseMedia)
+                            .setSeekBar(holderAudioR.mMediaSeekBar)
+                            .setRuntimeView(holderAudioR.mRunTime)
+                            .setTotalTimeView(holderAudioR.mTotalTime);
+                }
+                break;
 
         }
 
