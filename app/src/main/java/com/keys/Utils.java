@@ -1,10 +1,12 @@
 package com.keys;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.keys.activity.LoginActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +43,7 @@ public class Utils {
     static Typeface font;
 
     public static void applyFont(final Context context, final View v) {
-        font = Typeface.createFromAsset(context.getAssets(),FONT_NAME);
+        font = Typeface.createFromAsset(context.getAssets(), FONT_NAME);
         try {
             if (v instanceof ViewGroup) {
                 ViewGroup vg = (ViewGroup) v;
@@ -61,6 +65,7 @@ public class Utils {
             // ignore
         }
     }
+
     public static String currentDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sp = new SimpleDateFormat("dd-MM-yyyy");
@@ -85,6 +90,7 @@ public class Utils {
         Log.i("/////**- ", d + "");
         return d;
     }
+
     public static String milliSecondsToTimer(long milliseconds) {
         String finalTimerString = "";
         String secondsString = "";
@@ -110,6 +116,7 @@ public class Utils {
         // return timer string
         return finalTimerString;
     }
+
     public static int random4() {
         Random r = new Random(System.currentTimeMillis());
         return ((1 + r.nextInt(2)) * 1000 + r.nextInt(1000));
@@ -175,6 +182,16 @@ public class Utils {
         }
     }
 
+    public static void showProgress(Activity activity) {
+        ProgressDialog pd = new ProgressDialog(activity, R.style.AppCompatAlertDialogStyle);
+        pd.show();
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pd.setContentView(R.layout.progressdialog);
+        pd.setIndeterminate(true);
+        pd.setCanceledOnTouchOutside(false);
+    }
+
     public static boolean isOnline(Context context) {
 
         ConnectivityManager cm =
@@ -212,8 +229,9 @@ public class Utils {
         }
         return sb.toString();
     }
+
     public static String getName(String name) {
-     String[] username= name.split("@");
+        String[] username = name.split("@");
         return username[0];
     }
 

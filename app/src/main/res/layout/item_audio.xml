@@ -102,36 +102,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
+                android:id="@+id/ll_voice"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:background="@drawable/image_border"
-                android:padding="10dp">
+                android:padding="5dp">
                 <ImageView
                     android:id="@+id/play_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_play_"
+                    android:layout_alignParentRight="true"
+                    tools:ignore="ContentDescription" />
+                <ImageView
+                    android:id="@+id/mPauseMedia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_pause"
+                    android:visibility="gone"
                     android:layout_alignParentLeft="true"
                     tools:ignore="ContentDescription" />
+
                 <SeekBar
                     android:id="@+id/media_seekbar"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/play_icon"
                     android:layout_toLeftOf="@+id/period_time" />
-
                 <TextView
                     android:id="@+id/period_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="00:00" />
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
     </me.himanshusoni.chatmessageview.ChatMessageView>

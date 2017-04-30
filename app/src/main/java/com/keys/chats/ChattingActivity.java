@@ -319,14 +319,12 @@ public class ChattingActivity extends Fragment {
     private ProgressDialog inintDialog() {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage(getString(R.string.pleaseWait));
-
         return pDialog;
     }
 
     private void showpDialog() {
         if (!pDialog.isShowing()) {
             pDialog.show();
-            pDialog.setCancelable(false);
             pDialog.setCanceledOnTouchOutside(false);
         }
     }

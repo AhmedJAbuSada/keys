@@ -1,15 +1,19 @@
 package com.keys.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v17.leanback.widget.Util;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.keys.Hraj.Activity.RegisterActivity;
 import com.keys.MyApplication;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.forceRtlIfSupported;
 import com.onesignal.OneSignal;
 
@@ -52,21 +57,23 @@ public class LoginActivity extends Activity {
     private ProgressBar progressBar;
     private SharedPreferences sp;
     private Typeface font;
+    private ProgressDialog pd;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         forceRtlIfSupported.forceRtlIfSupported(this);
-
+        activity = this;
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(activity, MainActivity.class));
             finish();
         }
 
         setContentView(R.layout.logo_main);
-
+        Utils.setupUI(activity, findViewById(R.id.layout));
         sp = getSharedPreferences("myPrefs", MODE_PRIVATE);
         logo_txt = (TextView) findViewById(R.id.logo_app);
         remember_txt = (TextView) findViewById(R.id.remember_text);
@@ -99,12 +106,13 @@ public class LoginActivity extends Activity {
         remember_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(activity, ResetPasswordActivity.class));
             }
         });
         log_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.hideSoftKeyboard(activity);
                 OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
                     @Override
                     public void idsAvailable(String userId, String registrationId) {
@@ -124,7 +132,7 @@ public class LoginActivity extends Activity {
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
-                if (isNetworkAvailable()) {
+                if (Utils.isOnline(LoginActivity.this)) {
                     auth.signInWithEmailAndPassword(email, password_).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -132,7 +140,7 @@ public class LoginActivity extends Activity {
                                 if (password_.length() < 6) {
                                     password.setError(getString(R.string.minimum));
                                 } else {
-                                    Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                    Utils.showCustomToast(activity, getString(R.string.auth_failed));
                                 }
                             } else {
                                 getUserData(task.getResult().getUser().getUid());
@@ -141,8 +149,7 @@ public class LoginActivity extends Activity {
                         }
                     });
                 } else {
-                    Toast.makeText(LoginActivity.this, "لا يوجد انترنت!" + "\n" +
-                            "يجب الاتصال الانترنت لاكتمال عملية التسجيل", Toast.LENGTH_SHORT).show();
+                    Utils.showCustomToast(activity, getString(R.string.no_internet));
                     progressBar.setVisibility(View.GONE);
                 }
 

@@ -1,6 +1,7 @@
 package com.keys.chats.chat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,7 +22,6 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -106,12 +106,14 @@ import io.github.memfis19.annca.internal.configuration.AnncaConfiguration;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
+import nl.changer.audiowife.AudioWife;
 import vn.tungdx.mediapicker.MediaItem;
 import vn.tungdx.mediapicker.MediaOptions;
 import vn.tungdx.mediapicker.activities.MediaPickerActivity;
 
 @EActivity(R.layout.activity_chat)
 public class ChatActivity extends AppCompatActivity implements ImagePickerCallback, VideoPickerCallback {
+    static Flag[] flags;
 
     private static final String TAG = "ChattingActivity";
     public static final String URL_STORAGE_REFERENCE = "gs://keysapp-e17cf.appspot.com/";
@@ -174,7 +176,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
     private Realm realm;
     private List<Message> result = new ArrayList<>();
-    private boolean isExist=false;
+    private boolean isExist = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +261,20 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                 String uri = String.format(Locale.ENGLISH, "geo:%f,%f", Float.parseFloat(latitude), Float.parseFloat(longitude));
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 startActivity(intent);
+            }
+
+            @Override
+            public void clickVoiceMessage(MessageAdapter.viewHolderAudio view, int position, String audioFile, String duration) {
+                AlertDialog.Builder alert=new AlertDialog.Builder(ChatActivity.this);
+                alert.setView(R.layout.item_audio);
+
+                AudioWife.getInstance()
+                        .init(ChatActivity.this, Uri.parse(audioFile))
+                        .setPlayView(view.mPlayMedia)
+                        .setPauseView(view.mPauseMedia)
+                        .setSeekBar((view.mMediaSeekBar))
+//                        .setRuntimeView(holderAudioR.mRunTime)
+                        .setTotalTimeView(view.mTotalTime);
             }
         });
         RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
@@ -847,8 +863,8 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                 .child(memberId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("///",dataSnapshot.getValue()+"");
-                Log.i("///",memberId+"");
+                Log.i("///", dataSnapshot.getValue() + "");
+                Log.i("///", memberId + "");
 //                if ((Boolean) dataSnapshot.getValue()){
 //                    isExist=true;
 //                    return;
@@ -857,7 +873,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                isExist=false;
+                isExist = false;
             }
         });
         return isExist;
@@ -1174,7 +1190,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                         LatLng latLng = place.getLatLng();
                         String messageId = getMessageID();
                         long time = System.currentTimeMillis();
-                        Message message = new Message(groupId, ChattingActivity.getUid(),MyApplication.myPrefs.user().get(),
+                        Message message = new Message(groupId, ChattingActivity.getUid(), MyApplication.myPrefs.user().get(),
                                 latLng.latitude, latLng.longitude, time, messageId, MAP);
                         postSendNotification(getString(R.string.you_have_messsage));
                         addMessageObj(message, messageId);
@@ -1285,6 +1301,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
             mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
                     .child(ChattingActivity.getUid()).setValue(false);
             typing_toolbar.setVisibility(View.GONE);
+            AudioWife.getInstance().release();
         }
     }
 
@@ -1404,5 +1421,20 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
                 .child(ChattingActivity.getUid()).setValue(false);
     }
+    class Flag {
+        private boolean f = false;
 
+        public boolean get() {
+            return f;
+        }
+
+        public void set() {
+            f = true;
+        }
+
+        public void clear() {
+            f = false;
+        }
+
+    }
 }

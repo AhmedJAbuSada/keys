@@ -50,7 +50,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_VIDEO = 3;
     private static final int TYPE_VIDEO_RIGHT = 7;
     private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
-    private ClickListenerChatFirebase mClickListenerChatFirebase;
+    public ClickListenerChatFirebase mClickListenerChatFirebase;
     private Context context;
     private MediaPlayer mMediaPlayer;
     MessageAdapter(Context context, List<Message> messageList, ClickListenerChatFirebase mClickListenerChatFirebase) {
@@ -192,26 +192,14 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case TYPE_AUDIO:
                 final MessageAdapter.viewHolderAudio holderAudio = (MessageAdapter.viewHolderAudio) viewHolder;
                 if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
-                    // AudioWife takes care of click
-                    // handler for play/pause button
-
-//                    killMediaPlayer();
-//                    mMediaPlayer = new MediaPlayer();
-//                    try {
-//                        mMediaPlayer.setDataSource(messageList.get(position).getAudio());
-//                        mMediaPlayer.prepare();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    holderAudio.mMediaSeekBar.setMax(mMediaPlayer.getDuration());
-//                    holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getDuration()));
                     holderAudio.mPlayMedia.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudio);
+                            mClickListenerChatFirebase.clickVoiceMessage(holderAudio, position,messageList.get(position).getAudio(),
+                                    ""+messageList.get(position).getAudioDuration());
+                      //   getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudio);
                         }
                     });
-////                    period_play.setText(mediaPlayer.getDuration() + "");
 //                    AudioWife.getInstance()
 //                            .init(context, Uri.parse(messageList.get(position).getAudio()))
 //                            .setPlayView(holderAudio.mPlayMedia)
@@ -225,17 +213,13 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case TYPE_AUDIO_RIGHT:
                 final MessageAdapter.viewHolderAudio holderAudioR = (MessageAdapter.viewHolderAudio) viewHolder;
                 if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
-//                   getMedia(messageList.get(position).getAudio(),holderAudioR);
-//                    holderAudioR.mPlayMedia.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            playAudio(holderAudioR);
-//                        }
-//                    });
                     holderAudioR.mPlayMedia.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudioR);
+                            mClickListenerChatFirebase.clickVoiceMessage(holderAudioR, position,messageList.get(position).getAudio(),
+                                    ""+messageList.get(position).getAudioDuration());
+
+                            //   getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudioR);
                         }
                     });
 //                    AudioWife.getInstance()
@@ -259,17 +243,12 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void getMedia(String audio,String duration, viewHolderAudio holderAudioR) {
-        killMediaPlayer();
-
+//        killMediaPlayer();
+//
         new LoadVideoThumbnail(holderAudioR).execute(audio,duration);
-
-//        mMediaPlayer = new MediaPlayer();
-//        try {
-//            mMediaPlayer.setDataSource(audio);
-//            mMediaPlayer.prepare();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+//        holderAudioR.mMediaSeekBar.setMax((int)(Double.parseDouble(duration)));
+//        holderAudioR.mTotalTime.setText("" + Utils.milliSecondsToTimer((long)(Double.parseDouble(duration))));
+//        playAudio(audio,duration,holderAudioR);
     }
 
     @Override
@@ -300,16 +279,17 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private static class viewHolderAudio extends RecyclerView.ViewHolder {
-        private ImageView mPlayMedia;
-        private View mPauseMedia;
-        private SeekBar mMediaSeekBar;
-        private TextView mRunTime;
-        private TextView mTotalTime;
+    public  class viewHolderAudio extends RecyclerView.ViewHolder {
+        public ImageView mPlayMedia;
+        public View mPauseMedia;
+        public SeekBar mMediaSeekBar;
+        public TextView mRunTime;
+        public TextView mTotalTime;
 
-        viewHolderAudio(View v) {
+        viewHolderAudio(final View v) {
             super(v);
             mPlayMedia = (ImageView) v.findViewById(R.id.play_icon);
+            mPauseMedia = (ImageView) v.findViewById(R.id.mPauseMedia);
             mMediaSeekBar = (SeekBar) v.findViewById(R.id.media_seekbar);
             mTotalTime = (TextView) v.findViewById(R.id.period_time);
 
@@ -438,46 +418,35 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void playAudio(String audio,String duration, final viewHolderAudio holderAudio) {
-        if (mMediaPlayer.isPlaying()) {
-           // Utils.showCustomToast(context,"stop");
-            if (mMediaPlayer != null) {
-                mMediaPlayer.pause();
+        if (mMediaPlayer.isPlaying()&& mMediaPlayer != null) {
+                mMediaPlayer.stop();
                 holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
-            }
         } else {
             if (mMediaPlayer != null) {
-                try {
-                    mMediaPlayer.reset();
-                    mMediaPlayer.setDataSource(audio);
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mMediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-              //  mMediaPlayer.start();
-                holderAudio.mPlayMedia.setImageResource((R.drawable.ic_pause));
-                mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mediaPlayer) {
+                  //  mMediaPlayer = new MediaPlayer();
+                    try {
+                        holderAudio.mPlayMedia.setImageResource((R.drawable.ic_pause));
+                       // mMediaPlayer.setDataSource(audio);
+                        mMediaPlayer.prepare();
                         mMediaPlayer.start();
-                       Log.e("------ ","play prepared");
+                        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(MediaPlayer mp) {
+                                try{
+                                    holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
+                                }catch (Exception e){}
+                            }
+                        });
+
+
+                    } catch (IOException e) {
+                        Log.e("AUDIO PLAYBACK", "prepare() failed");
                     }
-                });
-//                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                    @Override
-//                    public void onCompletion(MediaPlayer mediaPlayer) {
-//                        killMediaPlayer();
-//                        holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
-//
-//                    }
-//                });
-//                holderAudio.mMediaSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
-//                holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getCurrentPosition()));
                 new Handler().postDelayed( new Runnable() {
                     @Override
                     public void run() {
                         holderAudio.mMediaSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
-                        holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getCurrentPosition()));
+//                        holderAudio.mTotalTime.setText("" + Utils.milliSecondsToTimer(mMediaPlayer.getCurrentPosition()));
                     }
                 }, 1000);
             }
@@ -526,6 +495,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
+                holderAudioR.mMediaSeekBar.setProgress(0);
                 holderAudioR.mMediaSeekBar.setMax((int)(Double.parseDouble(duration)));
                 holderAudioR.mTotalTime.setText("" + Utils.milliSecondsToTimer((long)(Double.parseDouble(duration))));
                 playAudio(audio,duration,holderAudioR);

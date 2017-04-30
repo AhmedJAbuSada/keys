@@ -47,13 +47,13 @@ public class SplashActivity extends Activity {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "Alakob.ttf");
         logo_txt.setTypeface(typeface);
         getData(0);
-//        if (MyApplication.myPrefs.isFirstLunch().get()) {
-//            if(Utils.isOnline(SplashActivity.this))
-//                getData(0);
-//            else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
-//        }else
-//            GoToTargetActivity();
-
+        if (MyApplication.myPrefs.isFirstLunch().get()) {
+            if(Utils.isOnline(SplashActivity.this))
+                getData(0);
+            else Utils.showCustomToast(SplashActivity.this,getString(R.string.no_internet));
+        }else getData(0);
+            //GoToTargetActivity();
+//
 
     }
 
@@ -113,9 +113,6 @@ public class SplashActivity extends Activity {
                         departments1.setName(name);
                         departments1.setIsActive(isActive);
                         dbHandler.addDepartments(departments1);
-                        if (counter1==dataSnapshot.getChildrenCount()){
-                            completed1=true;
-                        }
                     }
 
                 } catch (JSONException e) {
@@ -146,9 +143,6 @@ public class SplashActivity extends Activity {
                         cities.setName(name);
                         cities.setIsActive(isActive);
                         dbHandler.addCities(cities);
-                        if (counter2==dataSnapshot.getChildrenCount()){
-                            completed2=true;
-                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -161,14 +155,13 @@ public class SplashActivity extends Activity {
             }
         });
         if (action==0) {
-            if (dbHandler.getAllDepartments().size() > 0 && dbHandler.getAllCities().size() > 0) {
-                //  if (completed1&&completed2) {
+          //  if (dbHandler.getAllDepartments().size() > 0 && dbHandler.getAllCities().size() > 0) {
                 MyApplication.myPrefs.isFirstLunch().put(false);
                 GoToTargetActivity();
                 //   }
-            } else {
-                MyApplication.myPrefs.isFirstLunch().put(true);
-            }
+//            } else {
+//                MyApplication.myPrefs.isFirstLunch().put(true);
+//            }
         }
 
     }
