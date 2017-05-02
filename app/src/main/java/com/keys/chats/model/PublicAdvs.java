@@ -14,12 +14,14 @@ public class PublicAdvs extends RealmObject{
     private String time2;
     private String title;
     private String url;
+//    private String videoUrl;
+//    private int type;
 
     public PublicAdvs() {
     }
 
     public PublicAdvs(Boolean checked, Boolean isActive, Integer id, String date1, String date2,
-                      String time1, String time2, String title, String url) {
+                      String time1, String time2, String title, String url/*, String videoUrl, int type*/) {
         this.checked = checked;
         this.isActive = isActive;
         this.id = id;
@@ -29,6 +31,8 @@ public class PublicAdvs extends RealmObject{
         this.time2 = time2;
         this.title = title;
         this.url = url;
+//        this.videoUrl = videoUrl;
+//        this.type = type;
     }
 
     public Boolean getChecked() {

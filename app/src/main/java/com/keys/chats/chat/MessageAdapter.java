@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -103,9 +104,8 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new viewHolder(itemView);
         }
     }
-
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder,  final int position) {
         viewHolder.setIsRecyclable(false);
         String time = (String) converteTimestamp(String.valueOf((long) messageList.get(position).getCreatedAt()));
         switch (viewHolder.getItemViewType()) {
@@ -195,40 +195,25 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holderAudio.mPlayMedia.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            AudioWife.getInstance().release();
                             mClickListenerChatFirebase.clickVoiceMessage(holderAudio, position,messageList.get(position).getAudio(),
                                     ""+messageList.get(position).getAudioDuration());
-                      //   getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudio);
+                            //   getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudio);
                         }
                     });
-//                    AudioWife.getInstance()
-//                            .init(context, Uri.parse(messageList.get(position).getAudio()))
-//                            .setPlayView(holderAudio.mPlayMedia)
-//                            .setPauseView(holderAudio.mPauseMedia)
-//                            .setSeekBar(holderAudio.mMediaSeekBar)
-//                            .setRuntimeView(holderAudio.mRunTime)
-//                            .setTotalTimeView(holderAudio.mTotalTime);
-
                 }
                 break;
             case TYPE_AUDIO_RIGHT:
                 final MessageAdapter.viewHolderAudio holderAudioR = (MessageAdapter.viewHolderAudio) viewHolder;
                 if (messageList.get(position).getType().equals(ChatActivity.AUDIO)) {
-                    holderAudioR.mPlayMedia.setOnClickListener(new View.OnClickListener() {
+                    holderAudioR.audio_play.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            AudioWife.getInstance().release();
                             mClickListenerChatFirebase.clickVoiceMessage(holderAudioR, position,messageList.get(position).getAudio(),
                                     ""+messageList.get(position).getAudioDuration());
-
-                            //   getMedia(messageList.get(position).getAudio(),""+messageList.get(position).getAudioDuration(),holderAudioR);
                         }
                     });
-//                    AudioWife.getInstance()
-//                            .init(context, Uri.parse(messageList.get(position).getAudio()))
-//                            .setPlayView(holderAudioR.mPlayMedia)
-//                            .setPauseView(holderAudioR.mPauseMedia)
-//                            .setSeekBar(holderAudioR.mMediaSeekBar)
-//                            .setRuntimeView(holderAudioR.mRunTime)
-//                            .setTotalTimeView(holderAudioR.mTotalTime);
                 }
                 break;
 
@@ -243,12 +228,8 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void getMedia(String audio,String duration, viewHolderAudio holderAudioR) {
-//        killMediaPlayer();
-//
         new LoadVideoThumbnail(holderAudioR).execute(audio,duration);
-//        holderAudioR.mMediaSeekBar.setMax((int)(Double.parseDouble(duration)));
-//        holderAudioR.mTotalTime.setText("" + Utils.milliSecondsToTimer((long)(Double.parseDouble(duration))));
-//        playAudio(audio,duration,holderAudioR);
+
     }
 
     @Override
@@ -280,6 +261,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public  class viewHolderAudio extends RecyclerView.ViewHolder {
+        private RelativeLayout audio_play;
         public ImageView mPlayMedia;
         public View mPauseMedia;
         public SeekBar mMediaSeekBar;
@@ -288,6 +270,7 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         viewHolderAudio(final View v) {
             super(v);
+            audio_play = (RelativeLayout) v.findViewById(R.id.audio_play);
             mPlayMedia = (ImageView) v.findViewById(R.id.play_icon);
             mPauseMedia = (ImageView) v.findViewById(R.id.mPauseMedia);
             mMediaSeekBar = (SeekBar) v.findViewById(R.id.media_seekbar);
@@ -419,29 +402,29 @@ class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void playAudio(String audio,String duration, final viewHolderAudio holderAudio) {
         if (mMediaPlayer.isPlaying()&& mMediaPlayer != null) {
-                mMediaPlayer.stop();
-                holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
+            mMediaPlayer.stop();
+            holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
         } else {
             if (mMediaPlayer != null) {
-                  //  mMediaPlayer = new MediaPlayer();
-                    try {
-                        holderAudio.mPlayMedia.setImageResource((R.drawable.ic_pause));
-                       // mMediaPlayer.setDataSource(audio);
-                        mMediaPlayer.prepare();
-                        mMediaPlayer.start();
-                        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                try{
-                                    holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
-                                }catch (Exception e){}
-                            }
-                        });
+                //  mMediaPlayer = new MediaPlayer();
+                try {
+                    holderAudio.mPlayMedia.setImageResource((R.drawable.ic_pause));
+                    // mMediaPlayer.setDataSource(audio);
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
+                    mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            try{
+                                holderAudio.mPlayMedia.setImageResource((R.drawable.ic_play_));
+                            }catch (Exception e){}
+                        }
+                    });
 
 
-                    } catch (IOException e) {
-                        Log.e("AUDIO PLAYBACK", "prepare() failed");
-                    }
+                } catch (IOException e) {
+                    Log.e("AUDIO PLAYBACK", "prepare() failed");
+                }
                 new Handler().postDelayed( new Runnable() {
                     @Override
                     public void run() {

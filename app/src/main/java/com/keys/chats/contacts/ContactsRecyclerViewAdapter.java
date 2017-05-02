@@ -93,8 +93,8 @@ public class ContactsRecyclerViewAdapter extends RecyclerViewAdapterBase<Contact
                 results.count = filterList.size();
                 results.values = filterList;
             } else {
-                results.count = users.size();
-                results.values = users;
+                results.count = items.size();
+                results.values = items;
             }
             return results;
 

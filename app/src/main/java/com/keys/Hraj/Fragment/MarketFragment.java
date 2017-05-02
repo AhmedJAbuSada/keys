@@ -349,4 +349,10 @@ public class MarketFragment extends Fragment implements DoSearch, SwipeRefreshLa
         swipeRefreshLayout.setRefreshing(true);
         search(10);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((TextView)getActivity().findViewById(R.id.app_text)).setText(getActivity().getString(R.string.app_name));
+    }
 }

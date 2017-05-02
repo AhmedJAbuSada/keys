@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.keys.R;
+import com.keys.Utils;
 import com.keys.activity.LoginActivity;
 import com.keys.chats.chats.AddChatActivity_;
 import com.keys.chats.chats.AddChatGroupActivity_;
@@ -145,10 +146,11 @@ public class ChattingActivity extends Fragment {
         navigation_home.setOnClickListener(clickListener);
         image_toolbar = (ImageView) getActivity().findViewById(R.id.image_toolbar);
         ic_refresh = (ImageView) getActivity().findViewById(R.id.ic_refresh);
-
+        ((TextView)getActivity().findViewById(R.id.app_text)).setText(getActivity().getString(R.string.app_name));
         getActivity().findViewById(R.id.add_icon).setVisibility(View.GONE);
         getActivity().findViewById(R.id.ic_group).setVisibility(View.GONE);
         getActivity().findViewById(R.id.chat_icon).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.tune_icon).setVisibility(View.GONE);
         getActivity().findViewById(R.id.refresh_icon).setVisibility(View.GONE);
         getActivity().findViewById(R.id.add_user).setVisibility(View.GONE);
         getActivity().findViewById(R.id.image_toolbar).setVisibility(View.VISIBLE);
@@ -185,7 +187,8 @@ public class ChattingActivity extends Fragment {
 //    }
 
     public void getAllGroupssFromFirebase() {
-        showpDialog();
+        if (Utils.isOnline(getActivity())){
+            showpDialog();
         FirebaseDatabase.getInstance().getReference().child(Constant.TABLE_GROUP)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -243,8 +246,10 @@ public class ChattingActivity extends Fragment {
                     }
                 });
     }
+    }
 
     public void getAllRecentFromFirebase() {
+        if (Utils.isOnline(getActivity())){
         showpDialog();
         FirebaseDatabase.getInstance().getReference().child(Constant.TABLE_RECENT)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -314,7 +319,7 @@ public class ChattingActivity extends Fragment {
                         hidepDialog();
                     }
                 });
-    }
+    }}
 
     private ProgressDialog inintDialog() {
         pDialog = new ProgressDialog(getActivity());
@@ -395,6 +400,7 @@ public class ChattingActivity extends Fragment {
     private void clickItem(int id_icon) {
         switch (id_icon) {
             case R.id.navigation_home:
+                ((TextView)getActivity().findViewById(R.id.app_text)).setText(getActivity().getString(R.string.title_home));
                 ic_home.setImageResource(R.drawable.ic_home);
                 ic_groups.setImageResource(R.drawable.ic_users_outline);
                 ic_chats.setImageResource(R.drawable.ic_chat_outline);
@@ -405,6 +411,7 @@ public class ChattingActivity extends Fragment {
                 title_contacts.setTypeface(null, Typeface.NORMAL);
                 break;
             case R.id.navigation_groups:
+                ((TextView)getActivity().findViewById(R.id.app_text)).setText(getActivity().getString(R.string.title_groups));
                 ic_home.setImageResource(R.drawable.ic_home_outline);
                 ic_groups.setImageResource(R.drawable.ic_users);
                 ic_chats.setImageResource(R.drawable.ic_chat_outline);
@@ -415,6 +422,7 @@ public class ChattingActivity extends Fragment {
                 title_contacts.setTypeface(null, Typeface.NORMAL);
                 break;
             case R.id.navigation_chats:
+                ((TextView)getActivity().findViewById(R.id.app_text)).setText(getActivity().getString(R.string.title_chats));
                 ic_home.setImageResource(R.drawable.ic_home_outline);
                 ic_groups.setImageResource(R.drawable.ic_users_outline);
                 ic_chats.setImageResource(R.drawable.ic_chat);
@@ -425,6 +433,7 @@ public class ChattingActivity extends Fragment {
                 title_contacts.setTypeface(null, Typeface.NORMAL);
                 break;
             case R.id.navigation_contacts:
+                ((TextView)getActivity().findViewById(R.id.app_text)).setText(getActivity().getString(R.string.title_contacts));
                 ic_home.setImageResource(R.drawable.ic_home_outline);
                 ic_groups.setImageResource(R.drawable.ic_users_outline);
                 ic_chats.setImageResource(R.drawable.ic_chat_outline);

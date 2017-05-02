@@ -78,18 +78,21 @@ public class FragmentTwo extends Fragment {
                 if (tab.getText() == "الرئيسية") {
                     getActivity().findViewById(R.id.add_icon).setVisibility(View.VISIBLE);
                     getActivity().findViewById(R.id.market_icon).setVisibility(View.GONE);
+                    ((TextView)getActivity().findViewById(R.id.app_text)).setText("الرئيسية");
 
                 }
 
                 if (tab.getText() == "المتاجر") {
                     getActivity().findViewById(R.id.market_icon).setVisibility(View.VISIBLE);
                     getActivity().findViewById(R.id.add_icon).setVisibility(View.GONE);
+                    ((TextView)getActivity().findViewById(R.id.app_text)).setText("المتاجر");
                 }
 
                 if (tab.getText() == "الأقسام") {
                     getActivity().findViewById(R.id.add_icon).setVisibility(View.GONE);
                     getActivity().findViewById(R.id.tune_icon).setVisibility(View.VISIBLE);
                     getActivity().findViewById(R.id.market_icon).setVisibility(View.GONE);
+                    ((TextView)getActivity().findViewById(R.id.app_text)).setText("الأقسام");
                 } else {
                     getActivity().findViewById(R.id.tune_icon).setVisibility(View.GONE);
                 }

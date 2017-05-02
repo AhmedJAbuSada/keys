@@ -3,6 +3,7 @@ package com.keys.chats.chat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -20,6 +21,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -32,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,10 +91,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -113,8 +118,9 @@ import vn.tungdx.mediapicker.activities.MediaPickerActivity;
 
 @EActivity(R.layout.activity_chat)
 public class ChatActivity extends AppCompatActivity implements ImagePickerCallback, VideoPickerCallback {
+    static ImageView[] images;
     static Flag[] flags;
-
+    static   MediaPlayer mPlayer;
     private static final String TAG = "ChattingActivity";
     public static final String URL_STORAGE_REFERENCE = "gs://keysapp-e17cf.appspot.com/";
     public static final String FOLDER_STORAGE_IMG = "images";
@@ -177,6 +183,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     private Realm realm;
     private List<Message> result = new ArrayList<>();
     private boolean isExist = false;
+    private int lastposition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,8 +272,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
             @Override
             public void clickVoiceMessage(MessageAdapter.viewHolderAudio view, int position, String audioFile, String duration) {
-                AlertDialog.Builder alert=new AlertDialog.Builder(ChatActivity.this);
-                alert.setView(R.layout.item_audio);
+            Log.i("----*",position+" "+audioFile+"");
 
                 AudioWife.getInstance()
                         .init(ChatActivity.this, Uri.parse(audioFile))
@@ -275,6 +281,31 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                         .setSeekBar((view.mMediaSeekBar))
 //                        .setRuntimeView(holderAudioR.mRunTime)
                         .setTotalTimeView(view.mTotalTime);
+//                final AlertDialog.Builder d = new AlertDialog.Builder(ChatActivity.this);
+//                LayoutInflater inflater = getLayoutInflater();
+//                View dialogView = inflater.inflate(R.layout.item_audio, null);
+//                d.setView(dialogView);
+//              AlertDialog  dialog = d.create();
+//                dialog.setCanceledOnTouchOutside(true);
+//                dialog.show();
+//
+//                ImageView  mPlayMedia = (ImageView) dialog.findViewById(R.id.play_icon);
+//                ImageView mPauseMedia = (ImageView) dialog.findViewById(R.id.mPauseMedia);
+//                SeekBar mMediaSeekBar = (SeekBar) dialog.findViewById(R.id.media_seekbar);
+//                TextView  mTotalTime = (TextView) dialog.findViewById(R.id.period_time);
+//                AudioWife.getInstance()
+//                        .init(ChatActivity.this, Uri.parse(audioFile))
+//                        .setPlayView(mPlayMedia)
+//                        .setPauseView(mPauseMedia)
+//                        .setSeekBar((mMediaSeekBar))
+////                        .setRuntimeView(holderAudioR.mRunTime)
+//                        .setTotalTimeView(mTotalTime);
+//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                    @Override
+//                    public void onDismiss(DialogInterface dialogInterface) {
+//                        AudioWife.getInstance().release();
+//                    }
+//                });
             }
         });
         RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
@@ -1421,7 +1452,8 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         mFirebaseDatabaseReference.child(Constant.TABLE_ACTIVE).child(groupId)
                 .child(ChattingActivity.getUid()).setValue(false);
     }
-    class Flag {
+
+    static class Flag {
         private boolean f = false;
 
         public boolean get() {
@@ -1436,5 +1468,10 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
             f = false;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

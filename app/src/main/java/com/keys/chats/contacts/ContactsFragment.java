@@ -53,6 +53,8 @@ public class ContactsFragment extends Fragment {
     private ProgressDialog pDialog;
     List<Contact> userList = new ArrayList<>();
     List<String> phoneList = new ArrayList<>();
+    List<Contact> filterList = new ArrayList<>();
+
     ImageView ic_refresh;
 
     @Override
@@ -76,6 +78,20 @@ public class ContactsFragment extends Fragment {
         search.setIconified(false);
         search.clearFocus();
 
+//        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                adapter.getFilter().filter(newText);
+//
+//                return false;
+//            }
+//        });
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -84,13 +100,18 @@ public class ContactsFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                adapter.getFilter().filter(newText);
-
-                return false;
+                filterList.clear();
+                for (int i = 0; i < userList.size(); i++) {
+                    if ((userList.get(i).getFullName().toUpperCase()).contains(newText.toString().toUpperCase())) {
+                        filterList.add(userList.get(i));
+                    }
+                }
+                adapter.setItems(filterList);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                return true;
             }
         });
-
         listContact();
 
         ic_refresh = (ImageView) getActivity().findViewById(R.id.ic_refresh);
@@ -114,7 +135,7 @@ public class ContactsFragment extends Fragment {
         for (Contact contact : users) {
             if (!ChattingActivity.getUid().equals(contact.getObjectId())) {
                 if (!userList.contains(contact))
-                userList.add(contact);
+                    userList.add(contact);
             }
         }
         adapter.users = userList;
