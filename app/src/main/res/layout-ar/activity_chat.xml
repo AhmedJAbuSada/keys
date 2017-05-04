@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
 
@@ -26,7 +27,7 @@
             android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -58,12 +59,20 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/attach"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/ic_attach" />
+        <ImageView
             android:id="@+id/menu"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_more_" />
+            app:srcCompat="@drawable/ic_more_" />
     </LinearLayout>
 
     <RelativeLayout
@@ -96,7 +105,7 @@
                 android:layout_gravity="bottom"
                 android:layout_margin="5dp"
                 android:enabled="false"
-                android:src="@drawable/ic_send_" />
+                app:srcCompat="@drawable/ic_send_" />
 
             <EditText
                 android:id="@+id/messageEditText"
@@ -105,11 +114,18 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="اكتب رسالة"
                 android:gravity="start"
                 android:inputType="text"
                 android:maxLines="1" />
 
-
+            <!--<ImageView-->
+                <!--android:id="@+id/attachButton"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:layout_margin="5dp"-->
+                <!--app:srcCompat="@drawable/ic_attach" />-->
         </LinearLayout>
 
         <ProgressBar

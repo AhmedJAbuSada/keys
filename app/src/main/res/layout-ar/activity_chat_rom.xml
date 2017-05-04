@@ -119,7 +119,7 @@
             android:layout_gravity="center"
             android:background="@drawable/selector_bg"
             android:padding="10dp"
-            android:src="@drawable/ic_attachment" />
+            app:srcCompat="@drawable/ic_attachment" />
 
         <com.keys.emoji.EmojiconEditText
             android:id="@+id/inputMessage"

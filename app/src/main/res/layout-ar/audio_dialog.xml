@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_margin="5dp"
-    android:padding="4dp">
+    android:padding="3dp">
 
     <me.himanshusoni.chatmessageview.ChatMessageView
         android:id="@+id/contentMessageChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:padding="5dp"
-        android:layout_marginLeft="25dp"
         app:cmv_arrowGravity="center"
         app:cmv_arrowPosition="left"
-        app:cmv_backgroundColor="@color/colorGray4"
-        app:cmv_backgroundColorPressed="@color/colorGray4"
         app:cmv_contentPadding="0dp"
         app:cmv_cornerRadius="3dp"
         app:cmv_showArrow="true">
@@ -101,23 +97,24 @@
             <!--</FrameLayout>-->
             <RelativeLayout
                 android:id="@+id/audio_play"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:padding="2dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="4dp"
                     android:id="@+id/ll_voice"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:background="@drawable/image_border"
+                    android:padding="15dp">
                         <ImageView
                             android:id="@+id/play_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_play_"
-                            android:padding="5dp"
                             android:layout_alignParentRight="true"
                             tools:ignore="ContentDescription" />
                     <ImageView

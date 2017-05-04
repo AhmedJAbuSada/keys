@@ -30,6 +30,7 @@
     <color name="holo_blue_dark">#ff0099cc</color>
     <color name="view_divider_color">#BABABA</color>
     <color name="view_divider_color_2">#DADADA</color>
+    <color name="background">#f6f8fc</color>
 
     <color name="white">@android:color/white</color>
     <color name="chat_user_reply_background_color">#c8f0ff</color>
@@ -40,6 +41,7 @@
     <color name="background_tab_pressed">#6633B5E5</color>
 
     <color name="red">#ff4747</color>
+    <color name="dark_red">#D80027</color>
     <color name="red2">#ff0000</color>
     <color name="green">#3abb4d</color>
     <color name="grey">#e3e0e0</color>

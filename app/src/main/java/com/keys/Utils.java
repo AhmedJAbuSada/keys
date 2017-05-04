@@ -90,6 +90,37 @@ public class Utils {
         Log.i("/////**- ", d + "");
         return d;
     }
+    final static String MONTHS[] =
+            new String[]{"Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    public static String getDate(long milliSeconds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        String fullDate = buildValueOf(calendar.get(Calendar.DAY_OF_MONTH)) + " " + MONTHS[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR) + " at " +
+                buildValueOf(getHour(calendar.get(Calendar.HOUR_OF_DAY))) + ":" + buildValueOf(calendar.get(Calendar.MINUTE)) + " " + time_type(calendar.get(Calendar.HOUR_OF_DAY));
+        return fullDate;
+    }
+
+    private static String buildValueOf(int value) {
+        if (value >= 10)
+            return String.valueOf(value);
+        else
+            return "0" + String.valueOf(value);
+    }
+
+    private static String time_type(int i) {
+        if (i > 12)
+            return "PM";
+
+        return "AM";
+    }
+
+    private static int getHour(int hour) {
+        if (hour < 12)
+            return hour;
+        else
+            return hour - 12;
+    }
 
     public static String milliSecondsToTimer(long milliseconds) {
         String finalTimerString = "";

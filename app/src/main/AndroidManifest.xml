@@ -24,7 +24,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -38,50 +37,53 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.keys.activity.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.keys.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.keys.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name="com.keys.Hraj.Activity.RegisterActivity"
+            android:name=".Hraj.Activity.RegisterActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name="com.keys.activity.Profile" />
-        <!--<activity android:name=".Chatting.Activity.NewGroupActivity" />-->
-        <activity android:name="com.keys.activity.StatusActivity" />
-        <!--<activity android:name=".Chatting.Activity.RoomInformationActivity" />-->
-        <!--<activity android:name=".Chatting.Activity.MemberGroupActivity" />-->
-        <activity android:name="com.keys.activity.ReviewActivity" />
-        <!--<activity android:name=".Chatting.Activity.RoomInformationSettings" />-->
-        <!--<activity android:name=".Chatting.Activity.ContactPage" />-->
-        <activity android:name="com.keys.Hraj.Activity.CustomGallery_Activity" />
-        <!--<activity android:name=".Chatting.Activity.ChatRoomActivity" />-->
-        <activity android:name="com.keys.Hraj.Activity.AddAdsActivity">
+        <activity android:name=".activity.Profile" />
+        <!-- <activity android:name=".Chatting.Activity.NewGroupActivity" /> -->
+        <activity android:name=".activity.StatusActivity" />
+        <!-- <activity android:name=".Chatting.Activity.RoomInformationActivity" /> -->
+        <!-- <activity android:name=".Chatting.Activity.MemberGroupActivity" /> -->
+        <activity android:name=".activity.ReviewActivity" />
+        <!-- <activity android:name=".Chatting.Activity.RoomInformationSettings" /> -->
+        <!-- <activity android:name=".Chatting.Activity.ContactPage" /> -->
+        <activity android:name=".Hraj.Activity.CustomGallery_Activity" />
+        <!-- <activity android:name=".Chatting.Activity.ChatRoomActivity" /> -->
+        <activity android:name=".Hraj.Activity.AddAdsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.keys.Hraj.Activity.DetailsAdsActivity"
+            android:name=".Hraj.Activity.DetailsAdsActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.keys.Hraj.Activity.AddMarketActivity" />
-        <activity android:name="com.keys.Hraj.Activity.UpdateMarketActivity" />
-        <activity android:name="com.keys.Hraj.Activity.ImageViewerPagerActivity" />
-        <activity android:name="com.keys.Hraj.Activity.AdsByCityActivity" />
+        <activity android:name=".Hraj.Activity.AddMarketActivity" />
+        <activity android:name=".Hraj.Activity.UpdateMarketActivity" />
+        <activity android:name=".Hraj.Activity.ImageViewerPagerActivity" />
+        <activity android:name=".Hraj.Activity.AdsByCityActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -90,15 +92,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBMMCPYHNCFnIJopHhcofbAgNo52RbIzks" />
 
-        <activity android:name="com.keys.activity.ResetPasswordActivity" />
-        <activity android:name="com.keys.activity.ChangePasswordActivity" />
-        <activity android:name="com.keys.Hraj.Activity.AddLocationActivity" />
-        <!--<activity android:name=".Chatting.Activity.AllUserActivity" />-->
-        <!--<activity android:name=".Chatting.Activity.AddMembersActivity" />-->
-
+        <activity android:name=".activity.ResetPasswordActivity" />
+        <activity android:name=".activity.ChangePasswordActivity" />
+        <activity android:name=".Hraj.Activity.AddLocationActivity" />
+        <!-- <activity android:name=".Chatting.Activity.AllUserActivity" /> -->
+        <!-- <activity android:name=".Chatting.Activity.AddMembersActivity" /> -->
 
         <receiver
-            android:name="com.keys.receivers.OnBootReceiver"
+            android:name=".receivers.OnBootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -107,37 +108,30 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.keys.Service.FirebaseNotificationService" />
-        <service android:name="com.keys.Service.MyFirebaseInstanceIDService" />
+        <service android:name=".Service.FirebaseNotificationService" />
+        <service android:name=".Service.MyFirebaseInstanceIDService" />
 
         <activity
             android:name=".chats.contacts.ContactDetailsActivity_"
-            android:screenOrientation="portrait"
-          />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".chats.contacts.ContactActivity_"
-            android:screenOrientation="portrait"
-     />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".chats.chat.ChatActivity_"
-            android:screenOrientation="portrait"
-          />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".chats.chats.AddChatGroupActivity_"
-            android:screenOrientation="portrait"
-         />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".chats.chats.AddChatActivity_"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".chats.chat.FullScreenImageActivity_"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".chats.chat.VideoPlayerActivity_"
-            android:screenOrientation="portrait"
-           />
+            android:screenOrientation="portrait" />
         <activity
             android:name="vn.tungdx.mediapicker.activities.MediaPickerActivity"
             android:screenOrientation="portrait"
@@ -160,27 +154,31 @@
             android:theme="@style/ThemeFullscreen" />
 
         <service
-            android:name="com.keys.chats.firebase_services.MyFirebaseMessagingService"
+            android:name=".chats.firebase_services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name="com.keys.chats.firebase_services.MyFirebaseMessagingService"
+            android:name=".chats.firebase_services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <!--<service
+        <!--
+        <service
             android:name="com.keys.Service.MyFirebaseInstanceIDService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>-->
+        </service>
+        -->
 
+        <activity android:name=".chats.chat.GroupInfoActivity" />
+        <activity android:name=".chats.chat.GroupMediaActivity"></activity>
     </application>
 
 </manifest>

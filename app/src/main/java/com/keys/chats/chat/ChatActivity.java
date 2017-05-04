@@ -21,9 +21,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -117,10 +120,10 @@ import vn.tungdx.mediapicker.MediaOptions;
 import vn.tungdx.mediapicker.activities.MediaPickerActivity;
 
 @EActivity(R.layout.activity_chat)
-public class ChatActivity extends AppCompatActivity implements ImagePickerCallback, VideoPickerCallback {
+public class ChatActivity extends AppCompatActivity implements ImagePickerCallback, VideoPickerCallback, View.OnClickListener {
     static ImageView[] images;
     static Flag[] flags;
-    static   MediaPlayer mPlayer;
+    static MediaPlayer mPlayer;
     private static final String TAG = "ChattingActivity";
     public static final String URL_STORAGE_REFERENCE = "gs://keysapp-e17cf.appspot.com/";
     public static final String FOLDER_STORAGE_IMG = "images";
@@ -155,6 +158,8 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     EditText mMessageEditText;
     @ViewById(R.id.sendButton)
     ImageView mSendButton;
+//    @ViewById(R.id.attachButton)
+//    ImageView mAttachButton;
 
     ListPopupWindow popupWindowList;
     private ProgressDialog pDialog;
@@ -184,6 +189,8 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     private List<Message> result = new ArrayList<>();
     private boolean isExist = false;
     private int lastposition;
+    private LinearLayout ll_close, ll_gallery, ll_record, ll_location, ll_camera;
+    private AlertDialog attachmentDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,7 +257,7 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
 
-        adapter = new MessageAdapter(ChatActivity.this, result, new ClickListenerChatFirebase() {
+        adapter = new MessageAdapter(mMessageRecyclerView, ChatActivity.this, result, new ClickListenerChatFirebase() {
             @Override
             public void clickImageChat(View view, int position, String nameUser,
                                        String urlPhotoUser, String urlPhotoClick) {
@@ -272,40 +279,41 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
 
             @Override
             public void clickVoiceMessage(MessageAdapter.viewHolderAudio view, int position, String audioFile, String duration) {
-            Log.i("----*",position+" "+audioFile+"");
+                Log.i("----*", position + " " + audioFile + "");
 
-                AudioWife.getInstance()
-                        .init(ChatActivity.this, Uri.parse(audioFile))
-                        .setPlayView(view.mPlayMedia)
-                        .setPauseView(view.mPauseMedia)
-                        .setSeekBar((view.mMediaSeekBar))
-//                        .setRuntimeView(holderAudioR.mRunTime)
-                        .setTotalTimeView(view.mTotalTime);
-//                final AlertDialog.Builder d = new AlertDialog.Builder(ChatActivity.this);
-//                LayoutInflater inflater = getLayoutInflater();
-//                View dialogView = inflater.inflate(R.layout.item_audio, null);
-//                d.setView(dialogView);
-//              AlertDialog  dialog = d.create();
-//                dialog.setCanceledOnTouchOutside(true);
-//                dialog.show();
-//
-//                ImageView  mPlayMedia = (ImageView) dialog.findViewById(R.id.play_icon);
-//                ImageView mPauseMedia = (ImageView) dialog.findViewById(R.id.mPauseMedia);
-//                SeekBar mMediaSeekBar = (SeekBar) dialog.findViewById(R.id.media_seekbar);
-//                TextView  mTotalTime = (TextView) dialog.findViewById(R.id.period_time);
 //                AudioWife.getInstance()
 //                        .init(ChatActivity.this, Uri.parse(audioFile))
-//                        .setPlayView(mPlayMedia)
-//                        .setPauseView(mPauseMedia)
-//                        .setSeekBar((mMediaSeekBar))
+//                        .setPlayView(view.mPlayMedia)
+//                        .setPauseView(view.mPauseMedia)
+//                        .setSeekBar((view.mMediaSeekBar))
 ////                        .setRuntimeView(holderAudioR.mRunTime)
-//                        .setTotalTimeView(mTotalTime);
-//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialogInterface) {
-//                        AudioWife.getInstance().release();
-//                    }
-//                });
+//                        .setTotalTimeView(view.mTotalTime);
+                final AlertDialog.Builder d = new AlertDialog.Builder(ChatActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.audio_dialog, null);
+                d.setView(dialogView);
+                AlertDialog dialog = d.create();
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
+
+                ImageView mPlayMedia = (ImageView) dialog.findViewById(R.id.play_icon);
+                ImageView mPauseMedia = (ImageView) dialog.findViewById(R.id.mPauseMedia);
+                SeekBar mMediaSeekBar = (SeekBar) dialog.findViewById(R.id.media_seekbar);
+                TextView mTotalTime = (TextView) dialog.findViewById(R.id.period_time);
+                AudioWife.getInstance().release();
+                AudioWife.getInstance()
+                        .init(ChatActivity.this, Uri.parse(audioFile))
+                        .setPlayView(mPlayMedia)
+                        .setPauseView(mPauseMedia)
+                        .setSeekBar((mMediaSeekBar))
+//                        .setRuntimeView(holderAudioR.mRunTime)
+                        .setTotalTimeView(mTotalTime);
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        AudioWife.getInstance().release();
+                    }
+                });
             }
         });
         RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
@@ -494,7 +502,6 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
             }
         });
     }
-
     private void getItems() {
         RealmResults<Message> resultMessages = realm.where(Message.class).equalTo("groupId", groupId)
                 .findAllSorted("createdAt", Sort.DESCENDING);
@@ -1109,8 +1116,18 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     }
 
     @Click
+    void attach(View view) {
+        addAttachment(view);
+    }
+
+    @Click
     void menu(View view) {
-        openMenu(view);
+        if (group != null) {
+//            groupId = group.getObjectId();
+            if(group.getMembers().size()>2)
+            openMenuGroup(view);
+            else openMenu(view);
+        }else openMenu(view);
     }
 
     private void openMenu(View view) {
@@ -1146,6 +1163,71 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
         });
         popupWindowList.show();
     }
+    private void openMenuGroup(View view) {
+        popupWindowList = new ListPopupWindow(ChatActivity.this);
+        popupWindowList.setAnchorView(view);
+        popupWindowList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        String[] list = {getString(R.string.group_info), getString(R.string.group_media),
+               /* getString(R.string.search), getString(R.string.mute)*/};
+        ArrayAdapter<String> popAdapter = new ArrayAdapter<>(ChatActivity.this, R.layout.setting, list);
+        popupWindowList.setAdapter(popAdapter);
+        popupWindowList.setContentWidth(measureContentWidth(popAdapter));
+
+        popupWindowList.setModal(true);
+        popupWindowList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        Intent intent=new Intent(ChatActivity.this,GroupInfoActivity.class);
+                        Log.i("///* groupId: ",groupId+"  pp");
+                        intent.putExtra("groupId",groupId);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        Intent intentM=new Intent(ChatActivity.this,GroupMediaActivity.class);
+                        intentM.putExtra("groupId",groupId);
+                        startActivity(intentM);
+                        break;
+                }
+                popupWindowList.dismiss();
+            }
+        });
+        popupWindowList.show();
+    }
+//    private void openMenuGroup(View view) {
+//        popupWindowList = new ListPopupWindow(ChatActivity.this);
+//        popupWindowList.setAnchorView(view);
+//        popupWindowList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//        String[] list = {getString(R.string.camera), getString(R.string.gallery),
+//                getString(R.string.sendLocation), getString(R.string.record), getString(R.string.record)};
+//        ArrayAdapter<String> popAdapter = new ArrayAdapter<>(ChatActivity.this, R.layout.setting, list);
+//        popupWindowList.setAdapter(popAdapter);
+//        popupWindowList.setContentWidth(measureContentWidth(popAdapter));
+//
+//        popupWindowList.setModal(true);
+//        popupWindowList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                switch (i) {
+//                    case 0:
+//                        enableCamera();
+//                        break;
+//                    case 1:
+//                        openGallery();
+//                        break;
+//                    case 2:
+//                        locationPlacesIntent();
+//                        break;
+//                    case 3:
+//                        recordAudio();
+//                        break;
+//                }
+//                popupWindowList.dismiss();
+//            }
+//        });
+//        popupWindowList.show();
+//    }
 
     private int measureContentWidth(ListAdapter listAdapter) {
         ViewGroup mMeasureParent = null;
@@ -1453,6 +1535,30 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
                 .child(ChattingActivity.getUid()).setValue(false);
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view == ll_camera) {
+            if (attachmentDialog.isShowing())
+                attachmentDialog.dismiss();
+            enableCamera();
+        } else if (view == ll_gallery) {
+            if (attachmentDialog.isShowing())
+                attachmentDialog.dismiss();
+            openGallery();
+        }   else if (view == ll_location) {
+            if (attachmentDialog.isShowing())
+                attachmentDialog.dismiss();
+            locationPlacesIntent();
+        }  else if (view == ll_record) {
+            if (attachmentDialog.isShowing())
+                attachmentDialog.dismiss();
+            recordAudio();
+        } else if (view == ll_close) {
+            if (attachmentDialog.isShowing())
+                attachmentDialog.dismiss();
+        }
+    }
+
     static class Flag {
         private boolean f = false;
 
@@ -1473,5 +1579,34 @@ public class ChatActivity extends AppCompatActivity implements ImagePickerCallba
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void addAttachment(View v) {
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.attachment_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
+
+        ll_camera = (LinearLayout) view.findViewById(R.id.ll_camera);
+        ll_gallery = (LinearLayout) view.findViewById(R.id.ll_gallery);
+        ll_record = (LinearLayout) view.findViewById(R.id.ll_record);
+        ll_location = (LinearLayout) view.findViewById(R.id.ll_location);
+        ll_close = (LinearLayout) view.findViewById(R.id.ll_close);
+        ll_camera.setOnClickListener(this);
+        ll_location.setOnClickListener(this);
+        ll_record.setOnClickListener(this);
+        ll_gallery.setOnClickListener(this);
+        ll_close.setOnClickListener(this);
+        builder.setView(view);
+        attachmentDialog = builder.create();
+        attachmentDialog.setCanceledOnTouchOutside(true);
+        Window window = attachmentDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        attachmentDialog.getWindow().setGravity(Gravity.BOTTOM | Gravity.LEFT | Gravity.RIGHT);
+        wlp.y = 0;
+        wlp.x = 0;
+        wlp.dimAmount = (float) 0.2;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+        attachmentDialog.show();
     }
 }

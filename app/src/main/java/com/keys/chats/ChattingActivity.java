@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v17.leanback.widget.Util;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.ListPopupWindow;
@@ -109,9 +110,11 @@ public class ChattingActivity extends Fragment {
             getActivity().finish();
             return;
         }
-
-        getAllGroupssFromFirebase();
-        getAllRecentFromFirebase();
+        if (Utils.isOnline(getActivity())) {
+            showpDialog();
+            getAllGroupssFromFirebase();
+            getAllRecentFromFirebase();
+        }else Utils.showCustomToast(getActivity(),getString(R.string.no_internet));
 
 //        allTabs.addTab(allTabs.newTab().setText("ONE"),true);
 //        allTabs.addTab(allTabs.newTab().setText("ONE"));
@@ -187,8 +190,7 @@ public class ChattingActivity extends Fragment {
 //    }
 
     public void getAllGroupssFromFirebase() {
-        if (Utils.isOnline(getActivity())){
-            showpDialog();
+
         FirebaseDatabase.getInstance().getReference().child(Constant.TABLE_GROUP)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -245,11 +247,10 @@ public class ChattingActivity extends Fragment {
                         hidepDialog();
                     }
                 });
-    }
+
     }
 
     public void getAllRecentFromFirebase() {
-        if (Utils.isOnline(getActivity())){
         showpDialog();
         FirebaseDatabase.getInstance().getReference().child(Constant.TABLE_RECENT)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -319,18 +320,20 @@ public class ChattingActivity extends Fragment {
                         hidepDialog();
                     }
                 });
-    }}
+    }
+
 
     private ProgressDialog inintDialog() {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage(getString(R.string.pleaseWait));
+        pDialog.setCanceledOnTouchOutside(true);
+        pDialog.setCancelable(true);
         return pDialog;
     }
 
     private void showpDialog() {
         if (!pDialog.isShowing()) {
             pDialog.show();
-            pDialog.setCanceledOnTouchOutside(false);
         }
     }
 

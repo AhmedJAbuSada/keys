@@ -18,6 +18,7 @@ android {
         manifestPlaceholders = [manifestApplicationId          : "${applicationId}",
                                 onesignal_app_id               : "5a8c8dc5-424a-4b42-9443-c0f1b6ce86e8",
                                 onesignal_google_project_number: "357789060799"]
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -48,12 +49,28 @@ def AAVersion = '4.0.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+
+
+    compile files('libs/android-viewbadger.jar')
+
+
+    apt "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+
+    compile project(':mediapicker')
+    compile project(':annca')
+    compile 'com.netflix.rxjava:rxjava-android:0.16.1'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.netflix.rxjava:rxjava-android:0.16.1'
+    compile 'com.google.code.gson:gson:2.7'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:palette-v7:25.3.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
-
     compile 'com.google.firebase:firebase-auth:10.2.1'
     compile 'com.google.firebase:firebase-database:10.2.1'
     compile 'com.google.firebase:firebase-storage:10.2.1'
@@ -64,33 +81,22 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.2.1'
     compile 'com.google.firebase:firebase-messaging:10.2.1'
     compile 'com.firebaseui:firebase-ui-database:0.4.0'
-
     compile 'com.google.android.gms:play-services:10.2.1'
     compile 'com.google.android.gms:play-services-location:10.2.1'
     compile 'com.google.android.gms:play-services-places:10.2.1'
     compile 'com.google.android.gms:play-services-maps:10.2.1'
     compile 'com.google.android.gms:play-services-gcm:10.2.1'
-
     compile 'com.android.support:support-annotations:25.3.1'
     compile 'com.android.support:leanback-v17:25.3.1'
     compile 'org.apache:apache:18'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
-    compile 'com.netflix.rxjava:rxjava-android:0.16.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
-    compile 'com.google.code.gson:gson:2.7'
-    compile files('libs/android-viewbadger.jar')
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.rockerhieu.emojicon:library:1.3.3'
     compile 'com.booking:rtlviewpager:1.0.1'
     compile 'com.duolingo.open:rtl-viewpager:1.0.1'
     compile 'com.android.support:multidex:1.0.1'
-
-    testCompile 'junit:junit:4.12'
-
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'dev.dworks.libs:volleyplus:0.1.4'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
@@ -99,14 +105,11 @@ dependencies {
     compile 'com.onesignal:OneSignal:3.1.1@aar'
     compile 'com.github.adrielcafe:AndroidAudioRecorder:0.2.0'
     compile 'net.the4thdimension:audio-wife:1.0.3'
-    compile 'com.netflix.rxjava:rxjava-android:0.16.1'
     compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
     compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
     compile 'com.kbeanie:multipicker:1.1.31@aar'
-    compile 'com.google.code.gson:gson:2.7'
-
-    compile project(':mediapicker')
-    compile project(':annca')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }
 
 

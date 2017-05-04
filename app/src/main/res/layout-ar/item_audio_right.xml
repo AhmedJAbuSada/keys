@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:padding="4dp">
+
+    <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/contentMessageChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_gravity="right"
+        app:cmv_arrowGravity="center"
+        app:cmv_arrowPosition="right"
+        android:layout_marginRight="25dp"
+        app:cmv_backgroundColor="@color/colorPrimaryLight"
+        app:cmv_backgroundColorPressed="@color/colorPrimaryLight"
+        app:cmv_contentPadding="0dp"
+        app:cmv_cornerRadius="3dp"
+        app:cmv_showArrow="true">
+            <RelativeLayout
+                android:id="@+id/audio_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:id="@+id/ll_voice"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                        <ImageView
+                            android:id="@+id/play_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_play_"
+                            android:padding="5dp"
+                            android:layout_alignParentRight="true"
+                            tools:ignore="ContentDescription" />
+                    <ImageView
+                        android:id="@+id/mPauseMedia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pause"
+                        android:visibility="gone"
+                        android:layout_alignParentLeft="true"
+                        tools:ignore="ContentDescription" />
+
+                    <SeekBar
+                        android:id="@+id/media_seekbar"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.8"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toLeftOf="@+id/play_icon"
+                        android:layout_toRightOf="@+id/period_time" />
+                    <TextView
+                        android:id="@+id/period_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="00:00" />
+                </LinearLayout>
+
+            </RelativeLayout>
+    </me.himanshusoni.chatmessageview.ChatMessageView>
+</LinearLayout>

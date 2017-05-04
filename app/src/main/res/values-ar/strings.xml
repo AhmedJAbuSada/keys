@@ -223,7 +223,10 @@
     <string name="sendLocation">مشاركة الموقع الجغرافي</string>
     <string name="gallery">معرض الصور</string>
     <string name="camera">تصوير</string>
-
+    <string name="group_info">معلومات المجموعة</string>
+    <string name="group_media">وسائط المجموعة</string>
+    <string name="search">بحث</string>
+    <string name="leave_group">مغادرة المجموعة</string>
     <string name="title_groups">المجموعات</string>
     <string name="title_contacts">جهات الاتصال</string>
     <string name="title_chats">المحادثات</string>
